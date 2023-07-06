@@ -2,13 +2,16 @@ import { BrowserRouter } from "react-router-dom";
 
 import "./App.css";
 import Routing from "./config/Routing";
+import StoreProvider from "./config/StoreProvider";
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routing />
-      </BrowserRouter>
+      <StoreProvider>
+        <BrowserRouter>
+          <Routing />
+        </BrowserRouter>
+      </StoreProvider>
     </div>
   );
 }

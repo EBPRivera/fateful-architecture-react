@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../features/user";
 
 import { Form, Button } from "react-bootstrap";
 
@@ -8,6 +10,7 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const dispatch = useDispatch();
 
   const { Group, Label, Control } = Form;
 
@@ -20,8 +23,9 @@ const Login = () => {
 
     await axios
       .post("http://localhost:8080/login", { username, password })
-      .then((response) => {
+      .then(({ data }) => {
         // save data to redux
+        dispatch(login({ id: data.user.id, token: data.token }));
       })
       .catch((e) => {});
   };

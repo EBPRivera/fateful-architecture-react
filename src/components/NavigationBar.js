@@ -41,6 +41,9 @@ const NavigationBar = () => {
           <Link name="/" onClick={handleNavigate}>
             Home
           </Link>
+          <Link name="/characters" onClick={handleNavigate}>
+            Characters
+          </Link>
         </Nav>
         <Collapse />
         <Nav>{renderAuthLink()}</Nav>

@@ -20,6 +20,7 @@ const NavigationBar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/");
   };
 
   const renderAuthLink = () => {

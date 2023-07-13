@@ -12,7 +12,7 @@ const CharactersList = ({ characters }) => {
     } else {
       return (
         <tr>
-          <td colSpan={2}>You have no characters</td>
+          <td colSpan={3}>You have no characters</td>
         </tr>
       );
     }
@@ -24,6 +24,7 @@ const CharactersList = ({ characters }) => {
         <tr>
           <th>Name</th>
           <th>Description</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>{renderCharacters()}</tbody>

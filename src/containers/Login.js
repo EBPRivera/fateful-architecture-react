@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../features/user";
+import { useNavigate } from "react-router";
 
 import { Form, Button } from "react-bootstrap";
+
+import { login } from "../features/user";
 
 const Login = () => {
   const [userParams, setUserParams] = useState({
@@ -11,6 +13,7 @@ const Login = () => {
     password: "",
   });
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { Group, Label, Control } = Form;
 
@@ -26,8 +29,11 @@ const Login = () => {
       .then(({ data }) => {
         // save data to redux
         dispatch(login({ id: data.user.id, token: data.token }));
+        navigate("/characters");
       })
-      .catch((e) => {});
+      .catch((e) => {
+        navigate("/");
+      });
   };
 
   return (

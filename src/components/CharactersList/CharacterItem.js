@@ -2,7 +2,7 @@ import _ from "lodash";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const Character = ({ character }) => {
+const CharacterItem = ({ character }) => {
   const navigate = useNavigate();
   const { name, description } = character;
 
@@ -21,4 +21,4 @@ const Character = ({ character }) => {
   );
 };
 
-export default Character;
+export default CharacterItem;

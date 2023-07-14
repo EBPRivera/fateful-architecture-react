@@ -1,13 +1,13 @@
 import _ from "lodash";
 import { Table } from "react-bootstrap";
 
-import Character from "./Character";
+import CharacterItem from "./CharacterItem";
 
 const CharactersList = ({ characters }) => {
   const renderCharacters = () => {
     if (!_.isEmpty(characters)) {
       return _.map(characters, (character, key) => (
-        <Character character={character} key={key} />
+        <CharacterItem character={character} key={key} />
       ));
     } else {
       return (

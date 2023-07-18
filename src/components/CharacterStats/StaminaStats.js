@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 import CharacterStat from "./CharacterStat";
-import SACard from "../SACard";
+import SACard from "../Custom/SACard";
 
 const INITIAL_STAMINA = {
   current: 0,

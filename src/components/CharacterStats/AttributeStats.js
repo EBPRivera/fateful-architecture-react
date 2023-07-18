@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Container, Row, Col } from "react-bootstrap";
 
-import SACard from "../SACard";
+import SACard from "../Custom/SACard";
 import CharacterStat from "./CharacterStat";
 
 const AttributeStats = ({ stats, title }) => {

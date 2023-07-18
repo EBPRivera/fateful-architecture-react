@@ -15,20 +15,20 @@ const Characters = () => {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchCharacters = async () => {
-      axiosInstance
-        .get(`users/${id}/characters`)
-        .then(({ data }) => {
-          setCharacters(data);
-          setIsLoading(false);
-        })
-        .catch((e) => {
-          console.log(e.message);
-          setIsLoading(false);
-        });
-    };
+  const fetchCharacters = async () => {
+    axiosInstance
+      .get(`users/${id}/characters`)
+      .then(({ data }) => {
+        setCharacters(data);
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        console.log(e.message);
+        setIsLoading(false);
+      });
+  };
 
+  useEffect(() => {
     if (!isAuthorized) {
       navigate("/");
     } else {
@@ -54,7 +54,14 @@ const Characters = () => {
         </Col>
       </Row>
       <Row>
-        {isLoading ? <Spinner /> : <CharactersList characters={characters} />}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <CharactersList
+            characters={characters}
+            fetchCharacters={fetchCharacters}
+          />
+        )}
       </Row>
     </Container>
   );

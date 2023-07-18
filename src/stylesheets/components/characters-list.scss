@@ -1,0 +1,7 @@
+.characters-list {
+  .character-item-actions {
+    button:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+}

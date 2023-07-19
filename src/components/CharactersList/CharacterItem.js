@@ -13,9 +13,14 @@ const CharacterItem = ({ character, fetchCharacters }) => {
   const [disabled, setDisabled] = useState(false);
 
   const { name, description, id } = character;
+  const characterPath = `/characters/${_.kebabCase(name)}`;
 
   const navigateToCharacter = () => {
-    navigate(`/characters/${_.kebabCase(name)}`, { state: { character } });
+    navigate(characterPath, { state: { character } });
+  };
+
+  const navigateToEditCharacter = () => {
+    navigate(`${characterPath}/edit`, { state: { character } });
   };
 
   const handleDelete = async () => {
@@ -38,6 +43,14 @@ const CharacterItem = ({ character, fetchCharacters }) => {
       <td className="character-item-actions">
         <Button onClick={navigateToCharacter} size="sm" disabled={disabled}>
           View
+        </Button>
+        <Button
+          onClick={navigateToEditCharacter}
+          variant="success"
+          size="sm"
+          disabled={disabled}
+        >
+          Edit
         </Button>
         <Button
           onClick={handleDelete}

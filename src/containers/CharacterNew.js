@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Card, Container, Row, Col } from "react-bootstrap";
 
 import CharacterForm from "../components/CharacterForm";
 import useAxiosInstance from "../hooks/useAxiosInstance";
@@ -28,16 +27,7 @@ const CharacterNew = () => {
   return (
     <div id="new-character-page">
       <h1>New Character</h1>
-      <Container>
-        <Row>
-          <Col as={Card}>
-            <CharacterForm
-              handleSubmit={createCharacter}
-              submitting={submitting}
-            />
-          </Col>
-        </Row>
-      </Container>
+      <CharacterForm handleSubmit={createCharacter} submitting={submitting} />
     </div>
   );
 };

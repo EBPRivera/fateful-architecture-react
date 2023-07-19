@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Form, Button, Container, Row, Col, Spinner } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  Spinner,
+  Card,
+} from "react-bootstrap";
 
 import SATextInput from "../Custom/SATextInput";
 import SATextArea from "../Custom/SATextArea";
@@ -43,69 +51,77 @@ const CharacterForm = ({
   };
 
   return (
-    <Form onSubmit={submitForm} className="character-form">
-      <Container>
-        <Row>
-          <SATextInput
-            label="Name"
-            value={input.name}
-            onChange={(newValue) => handleChangeInput("name", newValue)}
-          />
-        </Row>
-        <Row>
-          <SATextArea
-            label="Description"
-            value={input.description}
-            onChange={(newValue) => handleChangeInput("description", newValue)}
-          />
-        </Row>
-        <hr />
-        <Row>
-          <Col>
-            <LevelForm
-              title="Level and Stamina"
-              onChange={(newValue) => {
-                handleChangeInput("level", newValue);
-                setStamina(20 + (newValue - 1) * 5);
-              }}
-              level={input.level}
-              stamina={stamina}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <AttributeStatsForm
-              stats={[
-                { title: "Physical", value: physical },
-                { title: "Mental", value: mental },
-                { title: "Social", value: social },
-              ]}
-              title="Base Stats"
-              onChange={handleChangeInput}
-            />
-          </Col>
-          <Col>
-            <AttributeStatsForm
-              stats={[
-                { title: "Awareness", value: awareness },
-                { title: "Prowess", value: prowess },
-                { title: "Resilience", value: resilience },
-              ]}
-              title="Complementary Stats"
-              onChange={handleChangeInput}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button type="submit" disabled={submitting}>
-              {submitting ? <Spinner as="span" size="sm" /> : "Submit"}
-            </Button>
-          </Col>
-        </Row>
-      </Container>
-    </Form>
+    <Container className="character-form">
+      <Row>
+        <Col as={Card}>
+          <Form onSubmit={submitForm}>
+            <Container>
+              <Row>
+                <SATextInput
+                  label="Name"
+                  value={input.name}
+                  onChange={(newValue) => handleChangeInput("name", newValue)}
+                />
+              </Row>
+              <Row>
+                <SATextArea
+                  label="Description"
+                  value={input.description}
+                  onChange={(newValue) =>
+                    handleChangeInput("description", newValue)
+                  }
+                />
+              </Row>
+              <hr />
+              <Row>
+                <Col>
+                  <LevelForm
+                    title="Level and Stamina"
+                    onChange={(newValue) => {
+                      handleChangeInput("level", newValue);
+                      setStamina(20 + (newValue - 1) * 5);
+                    }}
+                    level={input.level}
+                    stamina={stamina}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <AttributeStatsForm
+                    stats={[
+                      { title: "Physical", value: physical },
+                      { title: "Mental", value: mental },
+                      { title: "Social", value: social },
+                    ]}
+                    title="Base Stats"
+                    onChange={handleChangeInput}
+                  />
+                </Col>
+                <Col>
+                  <AttributeStatsForm
+                    stats={[
+                      { title: "Awareness", value: awareness },
+                      { title: "Prowess", value: prowess },
+                      { title: "Resilience", value: resilience },
+                    ]}
+                    title="Complementary Stats"
+                    onChange={handleChangeInput}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Button type="submit" disabled={submitting}>
+                    {submitting ? <Spinner as="span" size="sm" /> : "Submit"}
+                  </Button>
+                </Col>
+              </Row>
+            </Container>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

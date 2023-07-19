@@ -25,7 +25,7 @@ const Login = () => {
     const { username, password } = userParams;
 
     await axios
-      .post("http://localhost:8080/login", { username, password })
+      .post(`${process.env.REACT_APP_BASE_URL}login`, { username, password })
       .then(({ data }) => {
         // save data to redux
         dispatch(login({ id: data.user.id, token: data.token }));

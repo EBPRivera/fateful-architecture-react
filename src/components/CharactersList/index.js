@@ -3,11 +3,15 @@ import { Table } from "react-bootstrap";
 
 import CharacterItem from "./CharacterItem";
 
-const CharactersList = ({ characters }) => {
+const CharactersList = ({ characters, fetchCharacters }) => {
   const renderCharacters = () => {
     if (!_.isEmpty(characters)) {
       return _.map(characters, (character, key) => (
-        <CharacterItem character={character} key={key} />
+        <CharacterItem
+          character={character}
+          key={key}
+          fetchCharacters={fetchCharacters}
+        />
       ));
     } else {
       return (
@@ -19,7 +23,7 @@ const CharactersList = ({ characters }) => {
   };
 
   return (
-    <Table striped bordered hover>
+    <Table striped bordered hover className="characters-list">
       <thead>
         <tr>
           <th>Name</th>

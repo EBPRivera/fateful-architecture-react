@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Spinner } from "react-bootstrap";
+import { Spinner, Container, Row, Col, Button } from "react-bootstrap";
 
 import useAuthorized from "../hooks/useAuthorized";
 import useAxiosInstance from "../hooks/useAxiosInstance";
@@ -15,20 +15,20 @@ const Characters = () => {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchCharacters = async () => {
-      axiosInstance
-        .get(`http://localhost:8080/users/${id}/characters`)
-        .then(({ data }) => {
-          setCharacters(data);
-          setIsLoading(false);
-        })
-        .catch((e) => {
-          console.log(e.message);
-          setIsLoading(false);
-        });
-    };
+  const fetchCharacters = async () => {
+    axiosInstance
+      .get(`users/${id}/characters`)
+      .then(({ data }) => {
+        setCharacters(data);
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        console.log(e.message);
+        setIsLoading(false);
+      });
+  };
 
+  useEffect(() => {
     if (!isAuthorized) {
       navigate("/");
     } else {
@@ -38,10 +38,32 @@ const Characters = () => {
   }, []);
 
   return (
-    <div id="characters">
-      <h1>Characters Page</h1>
-      {isLoading ? <Spinner /> : <CharactersList characters={characters} />}
-    </div>
+    <Container id="characters-page">
+      <Row>
+        <h1>Characters Page</h1>
+      </Row>
+      <Row className="mb-3">
+        <Col className="actions">
+          <Button
+            onClick={() => {
+              navigate("/characters/new");
+            }}
+          >
+            Create Character
+          </Button>
+        </Col>
+      </Row>
+      <Row>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <CharactersList
+            characters={characters}
+            fetchCharacters={fetchCharacters}
+          />
+        )}
+      </Row>
+    </Container>
   );
 };
 

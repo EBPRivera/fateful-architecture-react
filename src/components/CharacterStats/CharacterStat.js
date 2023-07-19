@@ -16,6 +16,7 @@ const CharacterStat = ({ title, value, editable = false, onChange }) => {
       </Button>
     </InputGroup>
   );
+
   return (
     <div className="character-stat">
       <h5>{title}</h5>

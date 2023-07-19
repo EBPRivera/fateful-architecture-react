@@ -2,9 +2,18 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  Card,
+  Spinner,
+} from "react-bootstrap";
 
-import { Form, Button } from "react-bootstrap";
-
+import SATextInput from "../components/Custom/SATextInput";
+import SAPasswordInput from "../components/Custom/SAPasswordInput";
 import { login } from "../features/user";
 
 const Login = () => {
@@ -12,16 +21,18 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { Group, Label, Control } = Form;
 
   const updateParams = (key, value) => {
     setUserParams({ ...userParams, [key]: value });
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
     const { username, password } = userParams;
 
     await axios
@@ -37,23 +48,45 @@ const Login = () => {
   };
 
   return (
-    <div id="login">
-      <Form>
-        <Group className="mb-3">
-          <Label>Username</Label>
-          <Control
-            type="text"
-            onChange={(e) => updateParams("username", e.target.value)}
-          />
-          <br />
-          <Label>Password</Label>
-          <Control
-            type="password"
-            onChange={(e) => updateParams("password", e.target.value)}
-          />
-          <Button onClick={handleLogin}>Login</Button>
-        </Group>
-      </Form>
+    <div id="login-page">
+      <h1>Login Page</h1>
+      <Container>
+        <Row>
+          <Col as={Card}>
+            <Form onSubmit={handleLogin}>
+              <Container className="form-container">
+                <Row>
+                  <Col>
+                    <SATextInput
+                      label="Username"
+                      onChange={(newValue) => {
+                        updateParams("username", newValue);
+                      }}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <SAPasswordInput
+                      label="Password"
+                      onChange={(newValue) => {
+                        updateParams("password", newValue);
+                      }}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Button disabled={loading} type="submit">
+                      {loading ? <Spinner as="span" size="sm" /> : "Submit"}
+                    </Button>
+                  </Col>
+                </Row>
+              </Container>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };

@@ -1,17 +1,16 @@
 import { useNavigate } from "react-router";
-import { Nav, Navbar, Container } from "react-bootstrap";
+import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
-import { logout } from "../features/user";
+import { logout, guestLogin } from "../features/user";
 import useAuthorized from "../hooks/useAuthorized";
-
-const { Link } = Nav;
-const { Collapse } = Navbar;
+import useGuest from "../hooks/useGuest";
 
 const NavigationBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isAuthorized = useAuthorized();
+  const isGuest = useGuest();
 
   const handleNavigate = ({ target }) => {
     const { name } = target;
@@ -23,41 +22,51 @@ const NavigationBar = () => {
     navigate("/");
   };
 
+  const handleLoginAsGuest = () => {
+    dispatch(guestLogin());
+  };
+
   const renderAuthMenuItems = () => {
-    if (!isAuthorized) return;
+    if (!isAuthorized && !isGuest) return;
 
     return (
-      <>
-        <Link name="/characters" onClick={handleNavigate}>
-          Characters
-        </Link>
-      </>
+      <Nav.Link name="/characters" onClick={handleNavigate}>
+        Characters
+      </Nav.Link>
     );
   };
 
   const renderAuthLink = () => {
-    if (!isAuthorized) {
+    if (!isAuthorized && !isGuest) {
       return (
-        <Link name="/login" onClick={handleNavigate}>
-          Login
-        </Link>
+        <NavDropdown title="Login">
+          <NavDropdown.Item name="/login" onClick={handleNavigate}>
+            As User
+          </NavDropdown.Item>
+          <NavDropdown.Item onClick={handleLoginAsGuest}>
+            As Guest
+          </NavDropdown.Item>
+        </NavDropdown>
       );
     } else {
-      return <Link onClick={handleLogout}>Logout</Link>;
+      return <Nav.Link onClick={handleLogout}>Logout</Nav.Link>;
     }
   };
 
   return (
-    <Navbar expand="lg" className="bg-body-secondary">
+    <Navbar collapseOnSelect expand="lg" className="bg-body-secondary">
       <Container>
-        <Nav>
-          <Link name="/" onClick={handleNavigate}>
-            Home
-          </Link>
-          {renderAuthMenuItems()}
-        </Nav>
-        <Collapse />
-        <Nav>{renderAuthLink()}</Nav>
+        <Navbar.Toggle />
+        <Navbar.Collapse>
+          <Nav>
+            <Nav.Link name="/" onClick={handleNavigate}>
+              Home
+            </Nav.Link>
+            {renderAuthMenuItems()}
+          </Nav>
+          <Navbar.Collapse />
+          <Nav>{renderAuthLink()}</Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { persistReducer, persistStore } from "redux-persist";
@@ -13,17 +13,15 @@ const persistConfig = {
   storage: sessionStorage,
 };
 
-const persistedUserReducer = persistReducer(persistConfig, userReducer);
-const persistedGuestCharacterReducer = persistReducer(
-  persistConfig,
-  guestCharacterReducer
-);
+const rootReducer = combineReducers({
+  user: userReducer,
+  guestCharacter: guestCharacterReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  reducer: {
-    user: persistedUserReducer,
-    guestCharacter: persistedGuestCharacterReducer,
-  },
+  reducer: persistedReducer,
   middleware: [thunk],
 });
 

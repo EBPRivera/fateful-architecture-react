@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
@@ -12,6 +11,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 
+import useAxiosInstance from "../hooks/useAxiosInstance";
 import SATextInput from "../components/Custom/SATextInput";
 import SAPasswordInput from "../components/Custom/SAPasswordInput";
 import { login } from "../features/user";
@@ -24,6 +24,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const axiosInstance = useAxiosInstance();
 
   const updateParams = (key, value) => {
     setUserParams({ ...userParams, [key]: value });
@@ -35,8 +36,8 @@ const Login = () => {
 
     const { username, password } = userParams;
 
-    await axios
-      .post(`${process.env.REACT_APP_BASE_URL}login`, { username, password })
+    axiosInstance
+      .post("/login", { username, password })
       .then(({ data }) => {
         // save data to redux
         dispatch(login({ id: data.user.id, token: data.token }));

@@ -1,17 +1,21 @@
 import _ from "lodash";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import CharacterForm from "../components/CharacterForm";
 import useAxiosInstance from "../hooks/useAxiosInstance";
+import useAuthorized from "../hooks/useAuthorized";
+import { createGuestCharacter } from "../features/guestCharacter";
 
 const CharacterEdit = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const axiosInstance = useAxiosInstance();
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [submitting, setSubmitting] = useState(false);
+  const axiosInstance = useAxiosInstance();
+  const isAuthorized = useAuthorized();
 
   const hasCharacter =
     !_.isNull(location.state) && !_.isNull(location.state.character);
@@ -27,14 +31,19 @@ const CharacterEdit = () => {
     const { id } = location.state.character;
     setSubmitting(true);
 
-    axiosInstance
-      .put(`/users/${user.id}/characters/${id}`, { character })
-      .then(() => {
-        navigate("/characters");
-      })
-      .catch((e) => {
-        console.log(e.message);
-      });
+    if (isAuthorized) {
+      axiosInstance
+        .put(`/users/${user.id}/characters/${id}`, { character })
+        .then(() => {
+          navigate("/characters");
+        })
+        .catch((e) => {
+          console.log(e.message);
+        });
+    } else {
+      dispatch(createGuestCharacter({ character }));
+      navigate("/characters");
+    }
   };
 
   return (

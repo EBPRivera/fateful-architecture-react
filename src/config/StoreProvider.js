@@ -6,6 +6,7 @@ import sessionStorage from "redux-persist/es/storage/session";
 import { PersistGate } from "redux-persist/integration/react";
 
 import userReducer from "../features/user";
+import guestCharacterReducer from "../features/guestCharacter";
 
 const persistConfig = {
   key: "root",
@@ -13,10 +14,15 @@ const persistConfig = {
 };
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
+const persistedGuestCharacterReducer = persistReducer(
+  persistConfig,
+  guestCharacterReducer
+);
 
 const store = configureStore({
   reducer: {
     user: persistedUserReducer,
+    guestCharacter: persistedGuestCharacterReducer,
   },
   middleware: [thunk],
 });

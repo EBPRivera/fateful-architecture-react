@@ -3,6 +3,7 @@ import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 import { logout, guestLogin } from "../features/user";
+import { deleteGuestCharacter } from "../features/guestCharacter";
 import useAuthorized from "../hooks/useAuthorized";
 import useGuest from "../hooks/useGuest";
 
@@ -19,11 +20,13 @@ const NavigationBar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(deleteGuestCharacter());
     navigate("/");
   };
 
   const handleLoginAsGuest = () => {
     dispatch(guestLogin());
+    navigate("/characters/new");
   };
 
   const renderAuthMenuItems = () => {

@@ -1,21 +1,27 @@
+import _ from "lodash";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Spinner, Container, Row, Col, Button } from "react-bootstrap";
 
 import useAuthorized from "../hooks/useAuthorized";
+import useGuest from "../hooks/useGuest";
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import CharactersList from "../components/CharactersList";
 
 const Characters = () => {
   const isAuthorized = useAuthorized();
+  const isGuest = useGuest();
   const navigate = useNavigate();
   const axiosInstance = useAxiosInstance();
   const { id } = useSelector((state) => state.user);
+  const { character } = useSelector((state) => state.guestCharacter);
   const [characters, setCharacters] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchCharacters = async () => {
+    setIsLoading(true);
+
     axiosInstance
       .get(`users/${id}/characters`)
       .then(({ data }) => {
@@ -29,13 +35,30 @@ const Characters = () => {
   };
 
   useEffect(() => {
-    if (!isAuthorized) {
-      navigate("/");
-    } else {
+    if (isAuthorized) {
       fetchCharacters();
+    } else if (isGuest) {
+      if (_.isNull(character)) {
+        setCharacters([]);
+      } else {
+        setCharacters([character]);
+      }
+    } else {
+      navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const renderTable = () => {
+    return isLoading ? (
+      <Spinner />
+    ) : (
+      <CharactersList
+        characters={characters}
+        fetchCharacters={isAuthorized ? fetchCharacters : () => {}}
+      />
+    );
+  };
 
   return (
     <Container id="characters-page">
@@ -53,16 +76,7 @@ const Characters = () => {
           </Button>
         </Col>
       </Row>
-      <Row>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <CharactersList
-            characters={characters}
-            fetchCharacters={fetchCharacters}
-          />
-        )}
-      </Row>
+      <Row>{renderTable()}</Row>
     </Container>
   );
 };

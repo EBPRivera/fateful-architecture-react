@@ -42,14 +42,19 @@ const NavigationBar = () => {
   const renderAuthLink = () => {
     if (!isAuthorized && !isGuest) {
       return (
-        <NavDropdown title="Login">
-          <NavDropdown.Item name="/login" onClick={handleNavigate}>
-            As User
-          </NavDropdown.Item>
-          <NavDropdown.Item onClick={handleLoginAsGuest}>
-            As Guest
-          </NavDropdown.Item>
-        </NavDropdown>
+        <>
+          <Nav.Link name="/signup" onClick={handleNavigate}>
+            Signup
+          </Nav.Link>
+          <NavDropdown title="Login">
+            <NavDropdown.Item name="/login" onClick={handleNavigate}>
+              As User
+            </NavDropdown.Item>
+            <NavDropdown.Item onClick={handleLoginAsGuest}>
+              As Guest
+            </NavDropdown.Item>
+          </NavDropdown>
+        </>
       );
     } else {
       return <Nav.Link onClick={handleLogout}>Logout</Nav.Link>;

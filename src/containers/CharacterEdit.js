@@ -2,11 +2,14 @@ import _ from "lodash";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
 
-import CharacterForm from "../components/CharacterForm";
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import useAuthorized from "../hooks/useAuthorized";
 import { createGuestCharacter } from "../features/guestCharacter";
+import { INITIAL_ERROR } from "../globals";
+import CharacterForm from "../components/CharacterForm";
+import SAError from "../components/Custom/SAError";
 
 const CharacterEdit = () => {
   const location = useLocation();
@@ -14,6 +17,7 @@ const CharacterEdit = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(INITIAL_ERROR);
   const axiosInstance = useAxiosInstance();
   const isAuthorized = useAuthorized();
 
@@ -38,7 +42,8 @@ const CharacterEdit = () => {
           navigate("/characters");
         })
         .catch((e) => {
-          console.log(e.message);
+          setError({ hasError: true, message: e.message });
+          setSubmitting(false);
         });
     } else {
       dispatch(createGuestCharacter({ character }));
@@ -46,9 +51,22 @@ const CharacterEdit = () => {
     }
   };
 
+  const renderErrorMessage = () => (
+    <Container>
+      <Row>
+        <Col>
+          <SAError dismissible onClose={() => setError(INITIAL_ERROR)}>
+            {error.message}
+          </SAError>
+        </Col>
+      </Row>
+    </Container>
+  );
+
   return (
     <div id="edit-character-page">
       <h1>Editing: {location.state.character.name}</h1>
+      {error.hasError && renderErrorMessage()}
       {hasCharacter && (
         <CharacterForm
           submitting={submitting}

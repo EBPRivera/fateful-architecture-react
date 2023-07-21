@@ -1,4 +1,4 @@
-import axios from "axios";
+import _ from "lodash";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
@@ -12,9 +12,12 @@ import {
   Spinner,
 } from "react-bootstrap";
 
+import useAxiosInstance from "../hooks/useAxiosInstance";
+import { login } from "../features/user";
+import { INITIAL_ERROR } from "../globals";
 import SATextInput from "../components/Custom/SATextInput";
 import SAPasswordInput from "../components/Custom/SAPasswordInput";
-import { login } from "../features/user";
+import SAError from "../components/Custom/SAError";
 
 const Login = () => {
   const [userParams, setUserParams] = useState({
@@ -22,8 +25,10 @@ const Login = () => {
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(INITIAL_ERROR);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const axiosInstance = useAxiosInstance();
 
   const updateParams = (key, value) => {
     setUserParams({ ...userParams, [key]: value });
@@ -35,22 +40,40 @@ const Login = () => {
 
     const { username, password } = userParams;
 
-    await axios
-      .post(`${process.env.REACT_APP_BASE_URL}login`, { username, password })
+    await axiosInstance
+      .post("/login", { username, password })
       .then(({ data }) => {
         // save data to redux
         dispatch(login({ id: data.user.id, token: data.token }));
         navigate("/characters");
       })
       .catch((e) => {
-        navigate("/");
+        if (!_.isNull(e.response)) {
+          const { response } = e;
+          setError({ hasError: true, message: response.data.error });
+        } else {
+          setError({ hasError: true, message: e.message });
+        }
       });
+
+    setLoading(false);
   };
+
+  const renderErrorMessage = () => (
+    <Row>
+      <Col>
+        <SAError onClose={() => setError(INITIAL_ERROR)} dismissible>
+          {error.message}
+        </SAError>
+      </Col>
+    </Row>
+  );
 
   return (
     <div id="login-page">
       <h1>Login Page</h1>
       <Container>
+        {error.hasError && renderErrorMessage()}
         <Row>
           <Col as={Card}>
             <Form onSubmit={handleLogin}>

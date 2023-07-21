@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 
 import CharacterStats from "../components/CharacterStats";
+import CharacterSkills from "../components/CharacterSkills";
 
 const Character = () => {
   const location = useLocation();
@@ -31,6 +32,9 @@ const Character = () => {
         </Row>
         <Row className="character-stats">
           <CharacterStats character={location.state.character} />
+        </Row>
+        <Row className="character-skills">
+          <CharacterSkills />
         </Row>
       </>
     );

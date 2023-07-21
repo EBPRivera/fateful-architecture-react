@@ -7,31 +7,34 @@ import { Spinner, Container, Row, Col, Button } from "react-bootstrap";
 import useAuthorized from "../hooks/useAuthorized";
 import useGuest from "../hooks/useGuest";
 import useAxiosInstance from "../hooks/useAxiosInstance";
+import { INITIAL_ERROR } from "../globals";
 import CharactersList from "../components/CharactersList";
+import SAError from "../components/Custom/SAError";
 
 const Characters = () => {
-  const isAuthorized = useAuthorized();
-  const isGuest = useGuest();
   const navigate = useNavigate();
   const axiosInstance = useAxiosInstance();
   const { id } = useSelector((state) => state.user);
   const { character } = useSelector((state) => state.guestCharacter);
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(INITIAL_ERROR);
+  const isAuthorized = useAuthorized();
+  const isGuest = useGuest();
 
   const fetchCharacters = async () => {
     setIsLoading(true);
 
-    axiosInstance
+    await axiosInstance
       .get(`users/${id}/characters`)
       .then(({ data }) => {
         setCharacters(data);
-        setIsLoading(false);
       })
-      .catch((e) => {
-        console.log(e.message);
-        setIsLoading(false);
+      .catch(() => {
+        setError({ hasError: true, message: "Failed to fetch characters" });
       });
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -50,20 +53,36 @@ const Characters = () => {
   }, []);
 
   const renderTable = () => {
-    return isLoading ? (
-      <Container>
-        <Row>
-          <Col>
-            <Spinner />
-          </Col>
-        </Row>
-      </Container>
-    ) : (
-      <CharactersList
-        characters={characters}
-        fetchCharacters={isAuthorized ? fetchCharacters : () => {}}
-      />
-    );
+    if (isLoading) {
+      return (
+        <Container>
+          <Row>
+            <Col>
+              <Spinner />
+            </Col>
+          </Row>
+        </Container>
+      );
+    } else if (error.hasError) {
+      return (
+        <Container>
+          <Row>
+            <Col>
+              <SAError dismissible onClose={() => setError(INITIAL_ERROR)}>
+                {error.message}
+              </SAError>
+            </Col>
+          </Row>
+        </Container>
+      );
+    } else {
+      return (
+        <CharactersList
+          characters={characters}
+          fetchCharacters={isAuthorized ? fetchCharacters : () => {}}
+        />
+      );
+    }
   };
 
   return (

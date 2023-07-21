@@ -14,8 +14,10 @@ import {
 
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import { login } from "../features/user";
+import { INITIAL_ERROR } from "../globals";
 import SATextInput from "../components/Custom/SATextInput";
 import SAPasswordInput from "../components/Custom/SAPasswordInput";
+import SAError from "../components/Custom/SAError";
 
 const INITIAL_INPUT = {
   username: "",
@@ -26,6 +28,7 @@ const INITIAL_INPUT = {
 const Signup = () => {
   const [input, setInput] = useState(INITIAL_INPUT);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(INITIAL_ERROR);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const axiosInstance = useAxiosInstance();
@@ -47,16 +50,29 @@ const Signup = () => {
           dispatch(login({ id: data.user.id, token: data.token }));
           navigate("/characters");
         })
-        .catch((e) => console.log(e.message));
+        .catch((e) => setError({ hasError: true, message: e.message }));
+    } else {
+      setError({ hasError: true, message: "Please confirm your password" });
     }
 
     setLoading(false);
   };
 
+  const renderErrorMessage = () => (
+    <Row>
+      <Col>
+        <SAError onClose={() => setError(INITIAL_ERROR)} dismissible>
+          {error.message}
+        </SAError>
+      </Col>
+    </Row>
+  );
+
   return (
     <div id="signup-page">
       <h1>Signup Page</h1>
       <Container>
+        {error.hasError && renderErrorMessage()}
         <Row>
           <Col as={Card}>
             <Form onSubmit={handleSubmit}>

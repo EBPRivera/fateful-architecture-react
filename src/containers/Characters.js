@@ -51,7 +51,13 @@ const Characters = () => {
 
   const renderTable = () => {
     return isLoading ? (
-      <Spinner />
+      <Container>
+        <Row>
+          <Col>
+            <Spinner />
+          </Col>
+        </Row>
+      </Container>
     ) : (
       <CharactersList
         characters={characters}
@@ -67,11 +73,7 @@ const Characters = () => {
       </Row>
       <Row className="mb-3">
         <Col className="actions">
-          <Button
-            onClick={() => {
-              navigate("/characters/new");
-            }}
-          >
+          <Button onClick={() => navigate("/characters/new")}>
             Create Character
           </Button>
         </Col>

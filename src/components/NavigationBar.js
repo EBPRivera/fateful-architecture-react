@@ -71,6 +71,9 @@ const NavigationBar = () => {
               Home
             </Nav.Link>
             {renderAuthMenuItems()}
+            <Nav.Link name="/skills" onClick={handleNavigate}>
+              Skills
+            </Nav.Link>
           </Nav>
           <Navbar.Collapse />
           <Nav>{renderAuthLink()}</Nav>

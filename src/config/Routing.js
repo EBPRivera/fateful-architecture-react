@@ -8,6 +8,7 @@ import Signup from "../containers/Signup";
 import Character from "../containers/Character";
 import CharacterNew from "../containers/CharacterNew";
 import CharacterEdit from "../containers/CharacterEdit";
+import Skills from "../containers/Skills";
 
 const Routing = () => {
   return (
@@ -17,6 +18,7 @@ const Routing = () => {
       <Route path="/characters/new" element={<CharacterNew />} />
       <Route path="/characters/:name" element={<Character />} />
       <Route path="/characters/:name/edit" element={<CharacterEdit />} />
+      <Route path="/skills" element={<Skills />} />
       <Route path="/filler-page" element={<FillerPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />

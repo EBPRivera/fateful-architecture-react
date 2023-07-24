@@ -6,6 +6,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import useAuthorized from "../hooks/useAuthorized";
+import { formatResponseErrors } from "../helpers/errors";
 import { createGuestCharacter } from "../features/guestCharacter";
 import { INITIAL_ERROR } from "../globals";
 import CharacterForm from "../components/CharacterForm";
@@ -42,7 +43,14 @@ const CharacterEdit = () => {
           navigate("/characters");
         })
         .catch((e) => {
-          setError({ hasError: true, message: e.message });
+          if (!_.isUndefined(e.response) && !_.isNull(e.response)) {
+            setError({
+              hasError: true,
+              messages: formatResponseErrors(e.response.data),
+            });
+          } else {
+            setError({ hasError: true, messages: e.message });
+          }
           setSubmitting(false);
         });
     } else {
@@ -51,22 +59,24 @@ const CharacterEdit = () => {
     }
   };
 
-  const renderErrorMessage = () => (
+  const renderErrorMessages = () => (
     <Container>
-      <Row>
-        <Col>
-          <SAError dismissible onClose={() => setError(INITIAL_ERROR)}>
-            {error.message}
-          </SAError>
-        </Col>
-      </Row>
+      {_.map(error.messages, (message, key) => (
+        <Row key={key}>
+          <Col>
+            <SAError dismissible onClose={() => setError(INITIAL_ERROR)}>
+              {message}
+            </SAError>
+          </Col>
+        </Row>
+      ))}
     </Container>
   );
 
   return (
     <div id="edit-character-page">
       <h1>Editing: {location.state.character.name}</h1>
-      {error.hasError && renderErrorMessage()}
+      {error.hasError && renderErrorMessages()}
       {hasCharacter && (
         <CharacterForm
           submitting={submitting}

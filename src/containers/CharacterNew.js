@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +31,7 @@ const CharacterNew = () => {
           navigate("/characters");
         })
         .catch((e) => {
-          setError({ hasError: true, message: e.message });
+          setError({ hasError: true, messages: [e.message] });
           setSubmitting(false);
         });
     } else {
@@ -40,22 +41,23 @@ const CharacterNew = () => {
     }
   };
 
-  const renderErrorMessage = () => (
+  const renderErrorMessages = () => (
     <Container>
-      <Row>
-        <Col>
-          <SAError dismissible onClose={() => setError(INITIAL_ERROR)}>
-            {error.message}
-          </SAError>
-        </Col>
-      </Row>
+      {_.map(error.messages, (message, key) => (
+        <Row key={key}>
+          <Col>
+            <SAError dismissible onClose={() => setError(INITIAL_ERROR)}>
+              {message}
+            </SAError>
+          </Col>
+        </Row>
+      ))}
     </Container>
   );
-
   return (
     <div id="new-character-page">
       <h1>New Character</h1>
-      {error.hasError && renderErrorMessage()}
+      {error.hasError && renderErrorMessages()}
       <CharacterForm handleSubmit={createCharacter} submitting={submitting} />
     </div>
   );

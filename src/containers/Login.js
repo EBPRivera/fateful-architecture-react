@@ -15,6 +15,7 @@ import {
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import { login } from "../features/user";
 import { INITIAL_ERROR } from "../globals";
+import { formatResponseErrors } from "../helpers/errors";
 import SATextInput from "../components/Custom/SATextInput";
 import SAPasswordInput from "../components/Custom/SAPasswordInput";
 import SAError from "../components/Custom/SAError";
@@ -48,32 +49,37 @@ const Login = () => {
         navigate("/characters");
       })
       .catch((e) => {
-        if (!_.isNull(e.response)) {
+        // errors are stored within response.data as a hash collection
+        if (!_.isNull(e.response) && !_.isUndefined(e.response)) {
           const { response } = e;
-          setError({ hasError: true, message: response.data.error });
+          setError({
+            hasError: true,
+            messages: formatResponseErrors(response.data),
+          });
         } else {
-          setError({ hasError: true, message: e.message });
+          setError({ hasError: true, messages: [e.message] });
         }
       });
 
     setLoading(false);
   };
 
-  const renderErrorMessage = () => (
-    <Row>
-      <Col>
-        <SAError onClose={() => setError(INITIAL_ERROR)} dismissible>
-          {error.message}
-        </SAError>
-      </Col>
-    </Row>
-  );
+  const renderErrorMessages = () =>
+    _.map(error.messages, (message, key) => (
+      <Row key={key}>
+        <Col>
+          <SAError onClose={() => setError(INITIAL_ERROR)} dismissible>
+            {message}
+          </SAError>
+        </Col>
+      </Row>
+    ));
 
   return (
     <div id="login-page">
       <h1>Login Page</h1>
       <Container>
-        {error.hasError && renderErrorMessage()}
+        {error.hasError && renderErrorMessages()}
         <Row>
           <Col as={Card}>
             <Form onSubmit={handleLogin}>

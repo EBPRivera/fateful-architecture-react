@@ -15,7 +15,7 @@ import {
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import { login } from "../features/user";
 import { INITIAL_ERROR } from "../globals";
-import { formatResponseErrors } from "../helpers/errors";
+import { responseErrors } from "../helpers/errors";
 import SATextInput from "../components/Custom/SATextInput";
 import SAPasswordInput from "../components/Custom/SAPasswordInput";
 import SAError from "../components/Custom/SAError";
@@ -26,10 +26,16 @@ const INITIAL_INPUT = {
   confirmPassword: "",
 };
 
+const INITIAL_FIELD_ERRORS = {
+  username: [],
+  password: [],
+};
+
 const Signup = () => {
   const [input, setInput] = useState(INITIAL_INPUT);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(INITIAL_ERROR);
+  const [generalErrors, setGeneralErrors] = useState(INITIAL_ERROR);
+  const [fieldErrors, setFieldErrors] = useState(INITIAL_FIELD_ERRORS);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const axiosInstance = useAxiosInstance();
@@ -53,26 +59,33 @@ const Signup = () => {
         })
         .catch((e) => {
           if (!_.isNull(e.response) && !_.isUndefined(e.response)) {
-            setError({
+            setGeneralErrors({
               hasError: true,
-              messages: formatResponseErrors(e.response.data),
+              messages: responseErrors(e.response.data),
+            });
+            setFieldErrors({
+              username: e.response.data.username,
+              password: e.response.data.password,
             });
           } else {
-            setError({ hasError: true, messages: [e.message] });
+            setGeneralErrors({ hasError: true, messages: [e.message] });
           }
         });
     } else {
-      setError({ hasError: true, messages: ["Please confirm your password"] });
+      setGeneralErrors({
+        hasError: true,
+        messages: ["Please confirm your password"],
+      });
     }
 
     setLoading(false);
   };
 
   const renderErrorMessages = () =>
-    _.map(error.messages, (message, key) => (
+    _.map(generalErrors.messages, (message, key) => (
       <Row key={key}>
         <Col>
-          <SAError onClose={() => setError(INITIAL_ERROR)} dismissible>
+          <SAError onClose={() => setGeneralErrors(INITIAL_ERROR)} dismissible>
             {message}
           </SAError>
         </Col>
@@ -83,7 +96,7 @@ const Signup = () => {
     <div id="signup-page">
       <h1>Signup Page</h1>
       <Container>
-        {error.hasError && renderErrorMessages()}
+        {generalErrors.hasError && renderErrorMessages()}
         <Row>
           <Col as={Card}>
             <Form onSubmit={handleSubmit}>
@@ -96,6 +109,7 @@ const Signup = () => {
                         handleChangeInput("username", newValue)
                       }
                       value={input.username}
+                      errors={fieldErrors.username}
                     />
                   </Col>
                 </Row>
@@ -107,6 +121,7 @@ const Signup = () => {
                         handleChangeInput("password", newValue)
                       }
                       value={input.password}
+                      errors={fieldErrors.password}
                     />
                   </Col>
                 </Row>

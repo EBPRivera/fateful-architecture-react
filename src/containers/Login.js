@@ -15,7 +15,7 @@ import {
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import { login } from "../features/user";
 import { INITIAL_ERROR } from "../globals";
-import { formatResponseErrors } from "../helpers/errors";
+import { responseErrors } from "../helpers/errors";
 import SATextInput from "../components/Custom/SATextInput";
 import SAPasswordInput from "../components/Custom/SAPasswordInput";
 import SAError from "../components/Custom/SAError";
@@ -54,7 +54,7 @@ const Login = () => {
           const { response } = e;
           setError({
             hasError: true,
-            messages: formatResponseErrors(response.data),
+            messages: responseErrors(response.data),
           });
         } else {
           setError({ hasError: true, messages: [e.message] });

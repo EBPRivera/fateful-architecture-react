@@ -1,7 +1,16 @@
 import _ from "lodash";
 import { Form } from "react-bootstrap";
 
-const SANumberInput = ({ onChange, value, label, min = null, max = null }) => {
+import SAInputErrors from "./SAInputErrors";
+
+const SANumberInput = ({
+  onChange,
+  value,
+  label,
+  min = null,
+  max = null,
+  errors = [],
+}) => {
   return (
     <Form.Group>
       <Form.Label>{label}</Form.Label>
@@ -12,6 +21,7 @@ const SANumberInput = ({ onChange, value, label, min = null, max = null }) => {
         min={min}
         max={max}
       />
+      {!_.isEmpty(errors) && <SAInputErrors errors={errors} />}
     </Form.Group>
   );
 };

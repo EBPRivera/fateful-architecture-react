@@ -29,7 +29,7 @@ const INIT_ENTRIES = {
 };
 
 const CharacterForm = ({
-  handleSubmit,
+  onSubmit,
   submitting,
   defaultCharacter = INIT_ENTRIES,
   errors,
@@ -43,7 +43,7 @@ const CharacterForm = ({
     event.preventDefault();
     const { description } = input;
 
-    handleSubmit({
+    onSubmit({
       ...input,
       description: removeEmptyParagraphs(description),
       stamina_limit: stamina,

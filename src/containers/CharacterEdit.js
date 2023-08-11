@@ -64,7 +64,7 @@ const CharacterEdit = () => {
       {hasCharacter && (
         <CharacterForm
           submitting={submitting}
-          handleSubmit={editCharacter}
+          onSubmit={editCharacter}
           defaultCharacter={location.state.character}
           errors={errors}
         />

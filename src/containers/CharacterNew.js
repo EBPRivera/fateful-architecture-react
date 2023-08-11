@@ -44,7 +44,7 @@ const CharacterNew = () => {
     <div id="new-character-page">
       <h1>New Character</h1>
       <CharacterForm
-        handleSubmit={createCharacter}
+        onSubmit={createCharacter}
         submitting={submitting}
         errors={errors}
       />

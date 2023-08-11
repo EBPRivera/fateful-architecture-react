@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 
 import { responseErrors } from "../../helpers/errors";
+import { removeEmptyParagraphs } from "../../helpers/input";
 import SATextInput from "../Custom/SATextInput";
 import SATextArea from "../Custom/SATextArea";
 import AttributeStatsForm from "./AttributeStatsForm";
@@ -28,7 +29,7 @@ const INIT_ENTRIES = {
 };
 
 const CharacterForm = ({
-  handleSubmit,
+  onSubmit,
   submitting,
   defaultCharacter = INIT_ENTRIES,
   errors,
@@ -40,8 +41,11 @@ const CharacterForm = ({
 
   const submitForm = (event) => {
     event.preventDefault();
-    handleSubmit({
+    const { description } = input;
+
+    onSubmit({
       ...input,
+      description: removeEmptyParagraphs(description),
       stamina_limit: stamina,
       stamina_current: stamina,
       stamina_max: stamina,

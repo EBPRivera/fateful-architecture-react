@@ -28,6 +28,14 @@ const CharacterEdit = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const navigateFromPage = (character) => {
+    if (_.isUndefined(location.state.from)) {
+      navigate("/characters");
+    } else {
+      navigate(location.state.from, { state: { character } });
+    }
+  };
+
   const editCharacter = async (character) => {
     const { id } = location.state.character;
     setSubmitting(true);
@@ -36,11 +44,7 @@ const CharacterEdit = () => {
       axiosInstance
         .put(`/users/${user.id}/characters/${id}`, { character })
         .then(() => {
-          // TODO
-          // Check navigation history if user came from the character page
-          // if so, then redirect back to that page, otherwise redirect to
-          // characters page instead
-          navigate("/characters");
+          navigateFromPage(character);
         })
         .catch((e) => {
           if (!_.isUndefined(e.response) && !_.isNull(e.response)) {
@@ -50,7 +54,7 @@ const CharacterEdit = () => {
         });
     } else {
       dispatch(createGuestCharacter({ character }));
-      navigate("/characters");
+      navigateFromPage(character);
     }
   };
 
@@ -60,7 +64,7 @@ const CharacterEdit = () => {
       {hasCharacter && (
         <CharacterForm
           submitting={submitting}
-          handleSubmit={editCharacter}
+          onSubmit={editCharacter}
           defaultCharacter={location.state.character}
           errors={errors}
         />

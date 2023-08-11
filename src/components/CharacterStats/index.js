@@ -1,34 +1,32 @@
+import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
-import StaminaStats from "./StaminaStats";
+import ConstitutionStats from "./ConstitutionStats";
 import AttributeStats from "./AttributeStats";
 
 const CharacterStats = ({ character }) => {
-  const {
-    stamina_limit,
-    physical,
-    mental,
-    social,
-    awareness,
-    prowess,
-    resilience,
-  } = character;
+  const [constitution, setConstitution] = useState({
+    stamina: character.stamina,
+    endurance: character.endurance,
+    limit: character.limit,
+  });
+
   const baseStats = [
-    { title: "Physical", value: physical },
-    { title: "Mental", value: mental },
-    { title: "Social", value: social },
+    { title: "Physical", value: character.physical },
+    { title: "Mental", value: character.mental },
+    { title: "Social", value: character.social },
   ];
   const complementaryStats = [
-    { title: "Awareness", value: awareness },
-    { title: "Prowess", value: prowess },
-    { title: "Resilience", value: resilience },
+    { title: "Awareness", value: character.awareness },
+    { title: "Prowess", value: character.prowess },
+    { title: "Resilience", value: character.resilience },
   ];
 
   return (
     <Container>
       <Row>
-        <Col className="stamina-stats">
-          <StaminaStats staminaLimit={stamina_limit} />
+        <Col className="constitution-stats">
+          <ConstitutionStats stats={constitution} onChange={setConstitution} />
         </Col>
       </Row>
       <Row className="attribute-stats">

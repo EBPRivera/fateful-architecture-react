@@ -3,7 +3,7 @@ import { BsChevronDoubleRight } from "react-icons/bs";
 
 import SACard from "../Custom/SACard";
 
-const LevelForm = ({ title, onChange, level, stamina }) => {
+const LevelForm = ({ title, onChange, level, limit }) => {
   return (
     <div className="level-form">
       <SACard title={title}>
@@ -24,9 +24,9 @@ const LevelForm = ({ title, onChange, level, stamina }) => {
               <BsChevronDoubleRight />
             </Col>
             <Col>
-              <h5>Stamina</h5>
+              <h5>Limit</h5>
               <hr />
-              <b>{stamina}</b>
+              <b>{limit}</b>
             </Col>
           </Row>
         </Container>

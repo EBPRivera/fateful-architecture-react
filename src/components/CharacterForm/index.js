@@ -35,20 +35,17 @@ const CharacterForm = ({
   errors,
 }) => {
   const [input, setInput] = useState(defaultCharacter);
-  const [stamina, setStamina] = useState(20);
-
-  const { physical, mental, social, awareness, prowess, resilience } = input;
+  const [limit, setLimit] = useState(20);
 
   const submitForm = (event) => {
     event.preventDefault();
-    const { description } = input;
 
     onSubmit({
       ...input,
-      description: removeEmptyParagraphs(description),
-      stamina_limit: stamina,
-      stamina_current: stamina,
-      stamina_max: stamina,
+      description: removeEmptyParagraphs(input.description),
+      limit,
+      stamina: limit,
+      endurance: limit,
     });
   };
 
@@ -83,13 +80,13 @@ const CharacterForm = ({
               <Row>
                 <Col>
                   <LevelForm
-                    title="Level and Stamina"
+                    title="Level and Limit"
                     onChange={(newValue) => {
                       handleChangeInput("level", newValue);
-                      setStamina(20 + (newValue - 1) * 5);
+                      setLimit(20 + (newValue - 1) * 5);
                     }}
                     level={input.level}
-                    stamina={stamina}
+                    limit={limit}
                   />
                 </Col>
               </Row>
@@ -97,9 +94,9 @@ const CharacterForm = ({
                 <Col>
                   <AttributeStatsForm
                     stats={[
-                      { title: "Physical", value: physical },
-                      { title: "Mental", value: mental },
-                      { title: "Social", value: social },
+                      { title: "Physical", value: input.physical },
+                      { title: "Mental", value: input.mental },
+                      { title: "Social", value: input.social },
                     ]}
                     title="Base Stats"
                     onChange={handleChangeInput}
@@ -108,9 +105,9 @@ const CharacterForm = ({
                 <Col>
                   <AttributeStatsForm
                     stats={[
-                      { title: "Awareness", value: awareness },
-                      { title: "Prowess", value: prowess },
-                      { title: "Resilience", value: resilience },
+                      { title: "Awareness", value: input.awareness },
+                      { title: "Prowess", value: input.prowess },
+                      { title: "Resilience", value: input.resilience },
                     ]}
                     title="Complementary Stats"
                     onChange={handleChangeInput}

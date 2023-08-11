@@ -15,7 +15,6 @@ import {
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import { login } from "../features/user";
 import { INITIAL_ERROR } from "../globals";
-import { filteredOutResponseErrors } from "../helpers/errors";
 import SATextInput from "../components/Custom/SATextInput";
 import SAPasswordInput from "../components/Custom/SAPasswordInput";
 import SAError from "../components/Custom/SAError";
@@ -23,7 +22,7 @@ import SAError from "../components/Custom/SAError";
 const INITIAL_INPUT = {
   username: "",
   password: "",
-  confirmPassword: "",
+  passwordConfirmation: "",
 };
 
 const INITIAL_FIELD_ERRORS = {
@@ -46,40 +45,29 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { username, password, confirmPassword } = input;
+    const { username, password, passwordConfirmation } = input;
 
     setLoading(true);
 
-    if (_.isEqual(password, confirmPassword)) {
-      await axiosInstance
-        .post("/users", { username, password })
-        .then(({ data }) => {
-          dispatch(login({ id: data.user.id, token: data.token }));
-          navigate("/characters");
-        })
-        .catch((e) => {
-          if (!_.isNull(e.response) && !_.isUndefined(e.response)) {
-            setGeneralErrors({
-              hasError: true,
-              messages: filteredOutResponseErrors(e.response.data, [
-                "username",
-                "password",
-              ]),
-            });
-            setFieldErrors({
-              username: e.response.data.username,
-              password: e.response.data.password,
-            });
-          } else {
-            setGeneralErrors({ hasError: true, messages: [e.message] });
-          }
-        });
-    } else {
-      setFieldErrors((fieldErrors) => ({
-        ...fieldErrors,
-        confirmPassword: { base: "Password confirmation does not match" },
-      }));
-    }
+    await axiosInstance
+      .post("/users", {
+        username,
+        password,
+        password_confirmation: passwordConfirmation,
+      })
+      .then(({ data }) => {
+        dispatch(login({ id: data.user.id, token: data.token }));
+        navigate("/characters");
+      })
+      .catch((e) => {
+        if (!_.isNull(e.response) && !_.isUndefined(e.response)) {
+          setFieldErrors(
+            _.mapKeys(e.response.data, (val, key) => _.camelCase(key))
+          );
+        } else {
+          setGeneralErrors({ hasError: true, messages: [e.message] });
+        }
+      });
 
     setLoading(false);
   };
@@ -133,10 +121,10 @@ const Signup = () => {
                     <SAPasswordInput
                       label="Confirm Password"
                       onChange={(newValue) =>
-                        handleChangeInput("confirmPassword", newValue)
+                        handleChangeInput("passwordConfirmation", newValue)
                       }
-                      value={input.confirmPassword}
-                      errors={fieldErrors.confirmPassword}
+                      value={input.passwordConfirmation}
+                      errors={fieldErrors.passwordConfirmation}
                     />
                   </Col>
                 </Row>

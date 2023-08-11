@@ -22,13 +22,19 @@ import SAError from "../components/Custom/SAError";
 const INITIAL_INPUT = {
   username: "",
   password: "",
-  confirmPassword: "",
+  passwordConfirmation: "",
+};
+
+const INITIAL_FIELD_ERRORS = {
+  username: [],
+  password: [],
 };
 
 const Signup = () => {
   const [input, setInput] = useState(INITIAL_INPUT);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(INITIAL_ERROR);
+  const [generalErrors, setGeneralErrors] = useState(INITIAL_ERROR);
+  const [fieldErrors, setFieldErrors] = useState(INITIAL_FIELD_ERRORS);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const axiosInstance = useAxiosInstance();
@@ -39,40 +45,49 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { username, password, confirmPassword } = input;
+    const { username, password, passwordConfirmation } = input;
 
     setLoading(true);
 
-    if (_.isEqual(password, confirmPassword)) {
-      await axiosInstance
-        .post("/users", { username, password })
-        .then(({ data }) => {
-          dispatch(login({ id: data.user.id, token: data.token }));
-          navigate("/characters");
-        })
-        .catch((e) => setError({ hasError: true, message: e.message }));
-    } else {
-      setError({ hasError: true, message: "Please confirm your password" });
-    }
+    await axiosInstance
+      .post("/users", {
+        username,
+        password,
+        password_confirmation: passwordConfirmation,
+      })
+      .then(({ data }) => {
+        dispatch(login({ id: data.user.id, token: data.token }));
+        navigate("/characters");
+      })
+      .catch((e) => {
+        if (!_.isNull(e.response) && !_.isUndefined(e.response)) {
+          setFieldErrors(
+            _.mapKeys(e.response.data, (val, key) => _.camelCase(key))
+          );
+        } else {
+          setGeneralErrors({ hasError: true, messages: [e.message] });
+        }
+      });
 
     setLoading(false);
   };
 
-  const renderErrorMessage = () => (
-    <Row>
-      <Col>
-        <SAError onClose={() => setError(INITIAL_ERROR)} dismissible>
-          {error.message}
-        </SAError>
-      </Col>
-    </Row>
-  );
+  const renderErrorMessages = () =>
+    _.map(generalErrors.messages, (message, key) => (
+      <Row key={key}>
+        <Col>
+          <SAError onClose={() => setGeneralErrors(INITIAL_ERROR)} dismissible>
+            {message}
+          </SAError>
+        </Col>
+      </Row>
+    ));
 
   return (
     <div id="signup-page">
       <h1>Signup Page</h1>
       <Container>
-        {error.hasError && renderErrorMessage()}
+        {generalErrors.hasError && renderErrorMessages()}
         <Row>
           <Col as={Card}>
             <Form onSubmit={handleSubmit}>
@@ -85,6 +100,7 @@ const Signup = () => {
                         handleChangeInput("username", newValue)
                       }
                       value={input.username}
+                      errors={fieldErrors.username}
                     />
                   </Col>
                 </Row>
@@ -96,6 +112,7 @@ const Signup = () => {
                         handleChangeInput("password", newValue)
                       }
                       value={input.password}
+                      errors={fieldErrors.password}
                     />
                   </Col>
                 </Row>
@@ -104,9 +121,10 @@ const Signup = () => {
                     <SAPasswordInput
                       label="Confirm Password"
                       onChange={(newValue) =>
-                        handleChangeInput("confirmPassword", newValue)
+                        handleChangeInput("passwordConfirmation", newValue)
                       }
-                      value={input.confirmPassword}
+                      value={input.passwordConfirmation}
+                      errors={fieldErrors.passwordConfirmation}
                     />
                   </Col>
                 </Row>

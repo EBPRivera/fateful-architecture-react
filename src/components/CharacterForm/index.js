@@ -9,6 +9,8 @@ import {
   Card,
 } from "react-bootstrap";
 
+import { responseErrors } from "../../helpers/errors";
+import { removeEmptyParagraphs } from "../../helpers/input";
 import SATextInput from "../Custom/SATextInput";
 import SATextArea from "../Custom/SATextArea";
 import AttributeStatsForm from "./AttributeStatsForm";
@@ -27,9 +29,10 @@ const INIT_ENTRIES = {
 };
 
 const CharacterForm = ({
-  handleSubmit,
+  onSubmit,
   submitting,
   defaultCharacter = INIT_ENTRIES,
+  errors,
 }) => {
   const [input, setInput] = useState(defaultCharacter);
   const [stamina, setStamina] = useState(20);
@@ -38,8 +41,11 @@ const CharacterForm = ({
 
   const submitForm = (event) => {
     event.preventDefault();
-    handleSubmit({
+    const { description } = input;
+
+    onSubmit({
       ...input,
+      description: removeEmptyParagraphs(description),
       stamina_limit: stamina,
       stamina_current: stamina,
       stamina_max: stamina,
@@ -61,6 +67,7 @@ const CharacterForm = ({
                   label="Name"
                   value={input.name}
                   onChange={(newValue) => handleChangeInput("name", newValue)}
+                  errors={responseErrors(errors, "name")}
                 />
               </Row>
               <Row>

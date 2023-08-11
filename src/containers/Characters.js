@@ -31,7 +31,7 @@ const Characters = () => {
         setCharacters(data);
       })
       .catch(() => {
-        setError({ hasError: true, message: "Failed to fetch characters" });
+        setError({ hasError: true, messages: ["Failed to fetch characters"] });
       });
 
     setIsLoading(false);
@@ -66,13 +66,15 @@ const Characters = () => {
     } else if (error.hasError) {
       return (
         <Container>
-          <Row>
-            <Col>
-              <SAError dismissible onClose={() => setError(INITIAL_ERROR)}>
-                {error.message}
-              </SAError>
-            </Col>
-          </Row>
+          {_.map(error.messages, (message, key) => (
+            <Row key={key}>
+              <Col>
+                <SAError dismissible onClose={() => setError(INITIAL_ERROR)}>
+                  {message}
+                </SAError>
+              </Col>
+            </Row>
+          ))}
         </Container>
       );
     } else {

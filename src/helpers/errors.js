@@ -21,15 +21,13 @@ export const responseErrors = (responseErrors, attribute = null) => {
 
 export const filteredOutResponseErrors = (
   responseErrors,
-  filteredAttributes
+  filteredAttributes = []
 ) => {
   let errors = [];
 
   _.map(responseErrors, (errorMessages, attribute) => {
-    // If attribute is found in filteredAttributes array, exclude all errors
-    // from final output
+    if (_.includes(filteredAttributes, attribute)) return;
 
-    // otherwise...
     _.map(errorMessages, (message) => {
       errors = [...errors, message];
     });

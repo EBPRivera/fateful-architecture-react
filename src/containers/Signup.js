@@ -15,7 +15,7 @@ import {
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import { login } from "../features/user";
 import { INITIAL_ERROR } from "../globals";
-import { responseErrors } from "../helpers/errors";
+import { filteredOutResponseErrors } from "../helpers/errors";
 import SATextInput from "../components/Custom/SATextInput";
 import SAPasswordInput from "../components/Custom/SAPasswordInput";
 import SAError from "../components/Custom/SAError";
@@ -61,7 +61,10 @@ const Signup = () => {
           if (!_.isNull(e.response) && !_.isUndefined(e.response)) {
             setGeneralErrors({
               hasError: true,
-              messages: responseErrors(e.response.data),
+              messages: filteredOutResponseErrors(e.response.data, [
+                "username",
+                "password",
+              ]),
             });
             setFieldErrors({
               username: e.response.data.username,
@@ -72,10 +75,10 @@ const Signup = () => {
           }
         });
     } else {
-      setGeneralErrors({
-        hasError: true,
-        messages: ["Please confirm your password"],
-      });
+      setFieldErrors((fieldErrors) => ({
+        ...fieldErrors,
+        confirmPassword: { base: "Password confirmation does not match" },
+      }));
     }
 
     setLoading(false);
@@ -133,6 +136,7 @@ const Signup = () => {
                         handleChangeInput("confirmPassword", newValue)
                       }
                       value={input.confirmPassword}
+                      errors={fieldErrors.confirmPassword}
                     />
                   </Col>
                 </Row>

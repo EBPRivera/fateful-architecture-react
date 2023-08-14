@@ -1,0 +1,4 @@
+{
+  "base": ["physical", "mental", "social"],
+  "complementary": ["awareness", "prowess", "resilience"]
+}

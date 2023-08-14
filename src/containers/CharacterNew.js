@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import useAuthorized from "../hooks/useAuthorized";
 import { createGuestCharacter } from "../features/guestCharacter";
-import CharacterForm from "../components/CharacterForm";
+import NewCharacterForm from "../components/NewCharacterForm";
 
 const CharacterNew = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -43,7 +43,7 @@ const CharacterNew = () => {
   return (
     <div id="new-character-page">
       <h1>New Character</h1>
-      <CharacterForm
+      <NewCharacterForm
         onSubmit={createCharacter}
         submitting={submitting}
         errors={errors}

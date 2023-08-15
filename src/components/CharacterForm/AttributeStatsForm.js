@@ -2,7 +2,7 @@ import _ from "lodash";
 import { Container, Row, Col, Form } from "react-bootstrap";
 
 import SACard from "../Custom/SACard";
-import { DIE_SIZES } from "../../globals";
+import dieSizes from "../../json/dieSizes";
 
 const AttributeStatsForm = ({ stats, title, onChange }) => {
   const handleChange = (title, value) => {
@@ -12,7 +12,7 @@ const AttributeStatsForm = ({ stats, title, onChange }) => {
   const renderEditableForm = () => {
     return _.map(stats, (stat, key) => {
       const { title, value } = stat;
-      const characterAttributes = _.without(DIE_SIZES, "d12");
+      const characterAttributes = _.without(dieSizes, "d12");
 
       return (
         <Col key={key}>

@@ -59,6 +59,7 @@ const NewCharacterForm = ({ onSubmit, submitting, errors }) => {
       description: removeEmptyParagraphs(basicInformation.description),
       ...baseStats,
       ...complementaryStats,
+      level: 1,
       limit: 20,
       stamina: 20,
       endurance: 20,

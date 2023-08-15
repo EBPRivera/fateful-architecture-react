@@ -1,6 +1,8 @@
 import { InputGroup, Form, Button } from "react-bootstrap";
 import { BsDashLg, BsPlusLg } from "react-icons/bs";
 
+import Die from "../Custom/Die";
+
 const CharacterStat = ({ title, value, editable = false, onChange }) => {
   const renderEditableValue = () => (
     <InputGroup>
@@ -17,11 +19,19 @@ const CharacterStat = ({ title, value, editable = false, onChange }) => {
     </InputGroup>
   );
 
+  const renderDie = () => {
+    return (
+      <div className="d-flex justify-content-center">
+        <Die size={value} />
+      </div>
+    );
+  };
+
   return (
     <div className="character-stat">
       <h5>{title}</h5>
       <hr />
-      <div>{editable ? renderEditableValue() : <b>{value}</b>}</div>
+      {editable ? renderEditableValue() : renderDie()}
     </div>
   );
 };

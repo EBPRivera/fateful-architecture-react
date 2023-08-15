@@ -3,6 +3,7 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from "react-icons/bs";
 
 import SACard from "../Custom/SACard";
+import Die from "../Custom/Die";
 import statProfiles from "../../json/statProfiles";
 import stats from "../../json/stats";
 
@@ -40,8 +41,10 @@ const AttributeStatsForm = ({
   const renderStatsDropdown = () => {
     return _.map(statProfiles[profile], (value, key) => {
       return (
-        <Row key={key} className="mb-2">
-          <Col>{value}</Col>
+        <Row key={key} className="mb-2 align-items-center">
+          <Col className="d-flex justify-content-center">
+            <Die size={value} />
+          </Col>
           <Col>
             <BsChevronDoubleLeft />
           </Col>
@@ -65,7 +68,7 @@ const AttributeStatsForm = ({
   return (
     <SACard title={title}>
       <Container>
-        <Row className="mb-3">{renderProfileDropdown()}</Row>
+        <Row className="mb-3 align-items-center">{renderProfileDropdown()}</Row>
         <hr />
         <Row>
           <Container>{renderStatsDropdown()}</Container>

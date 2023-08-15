@@ -1,0 +1,59 @@
+.die {
+  --sa-d4-background-color: var(--bs-gray-500, #adb5bd);
+  --sa-d4-border-color: var(--bs-gray-600, #6c757d);
+  --sa-d4-text-color: var(--bs-gray-900, #212529);
+  --sa-d6-background-color: #3ca26d;
+  --sa-d6-border-color: var(--bs-green, #198754);
+  --sa-d6-text-color: #1d1d35;
+  --sa-d8-background-color: #4d87ff;
+  --sa-d8-border-color: var(--bs-blue, #0d6efd);
+  --sa-d8-text-color: #000060;
+  --sa-d10-background-color: #b47fff;
+  --sa-d10-border-color: var(--bs-purple, #6f42c1);
+  --sa-d10-text-color: #2c057b;
+  --sa-d12-background-color: var(--bs-orange, #fd7e14);
+  --sa-d12-border-color: #d25b00;
+  --sa-d12-text-color: #402e32;
+
+  border: 1px solid;
+  border-radius: 0.375rem;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h5 {
+    margin-bottom: 0 !important;
+  }
+}
+
+.die.d4 {
+  border-color: var(--sa-d4-border-color);
+  background-color: var(--sa-d4-background-color);
+  color: var(--sa-d4-text-color);
+}
+
+.die.d6 {
+  border-color: var(--sa-d6-border-color);
+  background-color: var(--sa-d6-background-color);
+  color: var(--sa-d6-text-color);
+}
+
+.die.d8 {
+  border-color: var(--sa-d8-border-color);
+  background-color: var(--sa-d8-background-color);
+  color: var(--sa-d8-text-color);
+}
+
+.die.d10 {
+  border-color: var(--sa-d10-border-color);
+  background-color: var(--sa-d10-background-color);
+  color: var(--sa-d10-text-color);
+}
+
+.die.d12 {
+  border-color: var(--sa-d12-border-color);
+  background-color: var(--sa-d12-background-color);
+  color: var(--sa-d12-text-color);
+}

@@ -18,11 +18,11 @@ const CharacterNew = () => {
   const isAuthorized = useAuthorized();
   const dispatch = useDispatch();
 
-  const createCharacter = async (character) => {
+  const handleCreateCharacter = async (character) => {
     setSubmitting(true);
 
     if (isAuthorized) {
-      axiosInstance
+      await axiosInstance
         .post(`users/${id}/characters`, { character })
         .then(() => {
           navigate("/characters");
@@ -31,20 +31,26 @@ const CharacterNew = () => {
           if (!_.isUndefined(e.response) && !_.isNull(e.response)) {
             setErrors(e.response.data);
           }
-          setSubmitting(false);
         });
     } else {
-      dispatch(createGuestCharacter({ character }));
-      setSubmitting(false);
-      navigate("/characters");
+      if (_.isEmpty(character.name)) {
+        setErrors({ name: ["can't be blank"] });
+      } else {
+        dispatch(createGuestCharacter({ character }));
+        navigate(`/characters/${_.kebabCase(character.name)}`, {
+          state: { character },
+        });
+      }
     }
+
+    setSubmitting(false);
   };
 
   return (
     <div id="new-character-page">
       <h1>New Character</h1>
       <NewCharacterForm
-        onSubmit={createCharacter}
+        onSubmit={handleCreateCharacter}
         submitting={submitting}
         errors={errors}
       />

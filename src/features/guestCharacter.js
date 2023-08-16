@@ -13,13 +13,21 @@ export const guestCharacterSlice = createSlice({
       return { character };
     },
 
+    updateGuestCharacter: (state, action) => {
+      const { character } = action.payload;
+      return { character };
+    },
+
     deleteGuestCharacter: (state, action) => {
       return initialState;
     },
   },
 });
 
-export const { createGuestCharacter, deleteGuestCharacter } =
-  guestCharacterSlice.actions;
+export const {
+  createGuestCharacter,
+  updateGuestCharacter,
+  deleteGuestCharacter,
+} = guestCharacterSlice.actions;
 
 export default guestCharacterSlice.reducer;

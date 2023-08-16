@@ -1,15 +1,14 @@
-import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 import ConstitutionStats from "./ConstitutionStats";
 import AttributeStats from "./AttributeStats";
 
-const CharacterStats = ({ character }) => {
-  const [constitution, setConstitution] = useState({
+const CharacterStats = ({ character, onChange }) => {
+  const constitution = {
     stamina: character.stamina,
     endurance: character.endurance,
     limit: character.limit,
-  });
+  };
 
   const baseStats = [
     { title: "Physical", value: character.physical },
@@ -26,7 +25,7 @@ const CharacterStats = ({ character }) => {
     <Container>
       <Row>
         <Col className="constitution-stats">
-          <ConstitutionStats stats={constitution} onChange={setConstitution} />
+          <ConstitutionStats stats={constitution} onChange={onChange} />
         </Col>
       </Row>
       <Row className="attribute-stats">

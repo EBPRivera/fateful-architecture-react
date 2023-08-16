@@ -4,6 +4,19 @@ import CharacterStat from "./CharacterStat";
 import CCard from "../Custom/CCard";
 
 const ConstitutionStats = ({ stats, onChange }) => {
+  const handleChangeStamina = (value) => {
+    if (value <= stats.endurance && value > 0) {
+      onChange({ ...stats, stamina: value });
+    }
+  };
+
+  const handleChangeEndurance = (value) => {
+    if (value <= stats.limit && value > 0) {
+      const stamina = stats.stamina > value ? value : stats.stamina;
+      onChange({ ...stats, stamina, endurance: value });
+    }
+  };
+
   return (
     <CCard title="Constitution">
       <Container>
@@ -13,12 +26,7 @@ const ConstitutionStats = ({ stats, onChange }) => {
               title="Stamina"
               value={stats.stamina}
               editable
-              onChange={(value) => {
-                onChange({
-                  ...stats,
-                  stamina: value,
-                });
-              }}
+              onChange={handleChangeStamina}
             />
           </Col>
           <Col>
@@ -26,12 +34,7 @@ const ConstitutionStats = ({ stats, onChange }) => {
               title="Endurance"
               value={stats.endurance}
               editable
-              onChange={(value) =>
-                onChange({
-                  ...stats,
-                  endurance: value,
-                })
-              }
+              onChange={handleChangeEndurance}
             />
           </Col>
           <Col>

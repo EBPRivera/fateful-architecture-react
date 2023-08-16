@@ -1,23 +1,54 @@
 import _ from "lodash";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
 
+import useAuthorized from "../hooks/useAuthorized";
+import useAxiosInstance from "../hooks/useAxiosInstance";
+import { updateGuestCharacter } from "../features/guestCharacter";
 import CharacterStats from "../components/CharacterStats";
 import CharacterSkills from "../components/CharacterSkills";
 import CCard from "../components/Custom/CCard";
 import CPageHeader from "../components/Custom/CPageHeader";
 
 const Character = () => {
+  const [character, setCharacter] = useState();
   const location = useLocation();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const isAuthorized = useAuthorized();
+  const axiosInstance = useAxiosInstance();
 
   useEffect(() => {
     if (_.isNull(location.state) || _.isNull(location.state.character)) {
       navigate("/characters");
+    } else {
+      setCharacter(location.state.character);
     }
+
+    return () => {
+      handleUpdateCharacter();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleUpdateCharacter = async () => {
+    if (_.isUndefined(character)) return;
+
+    if (isAuthorized) {
+      await axiosInstance.put(`/users/${user.id}/characters/${character.id}`, {
+        character,
+      });
+    } else {
+      dispatch(updateGuestCharacter({ character }));
+    }
+  };
+
+  const handleChangeConstitution = (constitution) => {
+    setCharacter((character) => ({ ...character, ...constitution }));
+  };
 
   const renderDescription = (description) => {
     const paragraphs = _.split(description, "\n");
@@ -36,8 +67,8 @@ const Character = () => {
   };
 
   const renderHeader = () => {
-    if (_.isNull(location.state)) return;
-    const { name } = location.state.character;
+    if (_.isUndefined(character)) return;
+    const { name } = character;
     const characterEditPath = `/characters/${_.kebabCase(name)}/edit`;
 
     return (
@@ -50,7 +81,7 @@ const Character = () => {
           onClick={() =>
             navigate(characterEditPath, {
               state: {
-                character: location.state.character,
+                character,
                 from: location.pathname,
               },
             })
@@ -63,15 +94,17 @@ const Character = () => {
   };
 
   const renderDetails = () => {
-    if (_.isNull(location.state)) return;
-
-    const { description } = location.state.character;
+    if (_.isUndefined(character)) return;
+    const { description } = character;
 
     return (
       <>
         {!_.isEmpty(description) && renderDescription(description)}
         <Row className="character-stats">
-          <CharacterStats character={location.state.character} />
+          <CharacterStats
+            character={character}
+            onChange={handleChangeConstitution}
+          />
         </Row>
         <Row className="character-skills">
           <CharacterSkills />

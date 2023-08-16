@@ -4,7 +4,13 @@
   }
 
   .character-stats {
-    .container > .row {
+    .container > .row:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .attribute-stats > .col:not(:last-child) {
       margin-bottom: 1rem;
     }
   }

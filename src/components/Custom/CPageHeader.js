@@ -2,8 +2,8 @@ import { Container } from "react-bootstrap";
 
 const CPageHeader = ({ children }) => {
   return (
-    <div className="sa-page-header p-3">
-      <Container>{children}</Container>
+    <div className="c-page-header p-3">
+      <Container className="d-flex align-items-start">{children}</Container>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap";
 
 const CCard = ({ title = null, children }) => {
   return (
-    <Card body className="sa-card">
+    <Card body className="c-card">
       {!_.isNull(title) && <Card.Title as="h2">{title}</Card.Title>}
       {children}
     </Card>

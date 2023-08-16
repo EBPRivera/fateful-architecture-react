@@ -1,7 +1,7 @@
 import { Form, Container, Row, Col, Button, Spinner } from "react-bootstrap";
 
-import SATextInput from "./SATextInput";
-import SAPasswordInput from "./SAPasswordInput";
+import CTextInput from "./CTextInput";
+import CPasswordInput from "./CPasswordInput";
 
 const DEFAULT_ERRORS = {
   passwordConfirmation: [],
@@ -21,7 +21,7 @@ const AuthForm = ({
     return (
       <Row>
         <Col className="px-0">
-          <SAPasswordInput
+          <CPasswordInput
             errors={errors.passwordConfirmation}
             label="Confirm Password"
             onChange={(newValue) => onChange("passwordConfirmation", newValue)}
@@ -36,7 +36,7 @@ const AuthForm = ({
       <Container className="form-container">
         <Row>
           <Col className="px-0">
-            <SATextInput
+            <CTextInput
               errors={errors.username}
               label="Username"
               onChange={(newValue) => {
@@ -47,7 +47,7 @@ const AuthForm = ({
         </Row>
         <Row>
           <Col className="px-0">
-            <SAPasswordInput
+            <CPasswordInput
               errors={errors.password}
               label="Password"
               onChange={(newValue) => {

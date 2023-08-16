@@ -1,11 +1,11 @@
 import { Container, Row, Col } from "react-bootstrap";
 
 import CharacterStat from "./CharacterStat";
-import SACard from "../Custom/SACard";
+import CCard from "../Custom/CCard";
 
 const ConstitutionStats = ({ stats, onChange }) => {
   return (
-    <SACard title="Constitution">
+    <CCard title="Constitution">
       <Container>
         <Row>
           <Col>
@@ -39,7 +39,7 @@ const ConstitutionStats = ({ stats, onChange }) => {
           </Col>
         </Row>
       </Container>
-    </SACard>
+    </CCard>
   );
 };
 

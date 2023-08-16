@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Card } from "react-bootstrap";
 
-const SACard = ({ title = null, children }) => {
+const CCard = ({ title = null, children }) => {
   return (
     <Card body className="sa-card">
       {!_.isNull(title) && <Card.Title as="h2">{title}</Card.Title>}
@@ -10,4 +10,4 @@ const SACard = ({ title = null, children }) => {
   );
 };
 
-export default SACard;
+export default CCard;

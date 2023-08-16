@@ -9,7 +9,7 @@ import useGuest from "../hooks/useGuest";
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import { INITIAL_ERROR } from "../globals";
 import CharactersList from "../components/CharactersList";
-import SAError from "../components/Custom/SAError";
+import CError from "../components/Custom/CError";
 
 const Characters = () => {
   const navigate = useNavigate();
@@ -69,9 +69,9 @@ const Characters = () => {
           {_.map(error.messages, (message, key) => (
             <Row key={key}>
               <Col>
-                <SAError dismissible onClose={() => setError(INITIAL_ERROR)}>
+                <CError dismissible onClose={() => setError(INITIAL_ERROR)}>
                   {message}
-                </SAError>
+                </CError>
               </Col>
             </Row>
           ))}

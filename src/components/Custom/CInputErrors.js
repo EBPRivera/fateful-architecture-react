@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-const InputErrors = ({ errors }) => {
+const CInputErrors = ({ errors }) => {
   return (
     <ul className="input-errors mt-1">
       {_.map(errors, (error, key) => (
@@ -10,4 +10,4 @@ const InputErrors = ({ errors }) => {
   );
 };
 
-export default InputErrors;
+export default CInputErrors;

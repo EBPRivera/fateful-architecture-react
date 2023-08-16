@@ -2,7 +2,7 @@ import _ from "lodash";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from "react-icons/bs";
 
-import SACard from "../Custom/SACard";
+import CCard from "../Custom/CCard";
 import Die from "../Custom/Die";
 import statProfiles from "../../json/statProfiles";
 import stats from "../../json/stats";
@@ -66,7 +66,7 @@ const AttributeStatsForm = ({
   };
 
   return (
-    <SACard title={title}>
+    <CCard title={title}>
       <Container>
         <Row className="mb-3 align-items-center">{renderProfileDropdown()}</Row>
         <hr />
@@ -74,7 +74,7 @@ const AttributeStatsForm = ({
           <Container>{renderStatsDropdown()}</Container>
         </Row>
       </Container>
-    </SACard>
+    </CCard>
   );
 };
 

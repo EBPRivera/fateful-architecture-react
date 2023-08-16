@@ -1,9 +1,9 @@
 import _ from "lodash";
 import { Form } from "react-bootstrap";
 
-import SAInputErrors from "./SAInputErrors";
+import CInputErrors from "./CInputErrors";
 
-const SANumberInput = ({
+const CNumberInput = ({
   onChange,
   value,
   label,
@@ -21,9 +21,9 @@ const SANumberInput = ({
         min={min}
         max={max}
       />
-      {!_.isEmpty(errors) && <SAInputErrors errors={errors} />}
+      {!_.isEmpty(errors) && <CInputErrors errors={errors} />}
     </Form.Group>
   );
 };
 
-export default SANumberInput;
+export default CNumberInput;

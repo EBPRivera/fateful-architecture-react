@@ -1,12 +1,12 @@
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { BsChevronDoubleRight } from "react-icons/bs";
 
-import SACard from "../Custom/SACard";
+import CCard from "../Custom/CCard";
 
 const LevelForm = ({ title, onChange, level, limit }) => {
   return (
     <div className="level-form">
-      <SACard title={title}>
+      <CCard title={title}>
         <Container>
           <Row>
             <Col>
@@ -30,7 +30,7 @@ const LevelForm = ({ title, onChange, level, limit }) => {
             </Col>
           </Row>
         </Container>
-      </SACard>
+      </CCard>
     </div>
   );
 };

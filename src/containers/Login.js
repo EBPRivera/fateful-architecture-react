@@ -8,7 +8,7 @@ import useAxiosInstance from "../hooks/useAxiosInstance";
 import { login } from "../features/user";
 import { responseErrors } from "../helpers/errors";
 import AuthForm from "../components/Custom/AuthForm";
-import SAError from "../components/Custom/SAError";
+import CError from "../components/Custom/CError";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -58,9 +58,9 @@ const Login = () => {
     _.map(errors, (message, key) => (
       <Row key={key}>
         <Col>
-          <SAError onClose={() => handleCloseErrorMessage(message)} dismissible>
+          <CError onClose={() => handleCloseErrorMessage(message)} dismissible>
             {message}
-          </SAError>
+          </CError>
         </Col>
       </Row>
     ));

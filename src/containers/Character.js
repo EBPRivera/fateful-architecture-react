@@ -5,8 +5,8 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 
 import CharacterStats from "../components/CharacterStats";
 import CharacterSkills from "../components/CharacterSkills";
-import SACard from "../components/Custom/SACard";
-import SAPageHeader from "../components/Custom/SAPageHeader";
+import CCard from "../components/Custom/CCard";
+import CPageHeader from "../components/Custom/CPageHeader";
 
 const Character = () => {
   const location = useLocation();
@@ -25,11 +25,11 @@ const Character = () => {
     return (
       <Row className="character-heading">
         <Col>
-          <SACard>
+          <CCard>
             {_.map(paragraphs, (paragraph, key) => (
               <p key={key}>{paragraph}</p>
             ))}
-          </SACard>
+          </CCard>
         </Col>
       </Row>
     );
@@ -82,7 +82,7 @@ const Character = () => {
 
   return (
     <>
-      <SAPageHeader>{renderHeader()}</SAPageHeader>
+      <CPageHeader>{renderHeader()}</CPageHeader>
       <Container id="character-page" className="pt-3">
         {renderDetails()}
       </Container>

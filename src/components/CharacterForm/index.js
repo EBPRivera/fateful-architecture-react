@@ -11,8 +11,8 @@ import {
 
 import { responseErrors } from "../../helpers/errors";
 import { removeEmptyParagraphs } from "../../helpers/input";
-import SATextInput from "../Custom/SATextInput";
-import SATextArea from "../Custom/SATextArea";
+import CTextInput from "../Custom/CTextInput";
+import CTextArea from "../Custom/CTextArea";
 import AttributeStatsForm from "./AttributeStatsForm";
 import LevelForm from "./LevelForm";
 
@@ -60,7 +60,7 @@ const CharacterForm = ({
           <Form onSubmit={submitForm}>
             <Container>
               <Row>
-                <SATextInput
+                <CTextInput
                   label="Name"
                   value={input.name}
                   onChange={(newValue) => handleChangeInput("name", newValue)}
@@ -68,7 +68,7 @@ const CharacterForm = ({
                 />
               </Row>
               <Row>
-                <SATextArea
+                <CTextArea
                   label="Description"
                   value={input.description}
                   onChange={(newValue) =>

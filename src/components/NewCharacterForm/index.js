@@ -14,8 +14,8 @@ import statProfiles from "../../json/statProfiles";
 import stats from "../../json/stats";
 import { responseErrors } from "../../helpers/errors";
 import { removeEmptyParagraphs } from "../../helpers/input";
-import SATextInput from "../Custom/SATextInput";
-import SATextArea from "../Custom/SATextArea";
+import CTextInput from "../Custom/CTextInput";
+import CTextArea from "../Custom/CTextArea";
 import AttributeStatsForm from "./AttributeStatsForm";
 
 const INIT_BASIC_INFO = {
@@ -108,7 +108,7 @@ const NewCharacterForm = ({ onSubmit, submitting, errors }) => {
           <Form onSubmit={handleSubmitForm}>
             <Container>
               <Row>
-                <SATextInput
+                <CTextInput
                   label="Name"
                   value={basicInformation.name}
                   onChange={(newValue) => handleChangeInput("name", newValue)}
@@ -116,7 +116,7 @@ const NewCharacterForm = ({ onSubmit, submitting, errors }) => {
                 />
               </Row>
               <Row>
-                <SATextArea
+                <CTextArea
                   label="Description"
                   value={basicInformation.description}
                   onChange={(newValue) =>

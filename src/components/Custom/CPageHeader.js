@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
 
-const SAPageHeader = ({ children }) => {
+const CPageHeader = ({ children }) => {
   return (
     <div className="sa-page-header p-3">
       <Container>{children}</Container>
@@ -8,4 +8,4 @@ const SAPageHeader = ({ children }) => {
   );
 };
 
-export default SAPageHeader;
+export default CPageHeader;

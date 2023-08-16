@@ -10,6 +10,7 @@ import useAxiosInstance from "../hooks/useAxiosInstance";
 import { INITIAL_ERROR } from "../globals";
 import CharactersList from "../components/CharactersList";
 import CError from "../components/Custom/CError";
+import CPageHeader from "../components/Custom/CPageHeader";
 
 const Characters = () => {
   const navigate = useNavigate();
@@ -88,19 +89,17 @@ const Characters = () => {
   };
 
   return (
-    <Container id="characters-page">
-      <Row>
-        <h1>Characters Page</h1>
-      </Row>
-      <Row className="mb-3">
-        <Col className="actions">
-          <Button onClick={() => navigate("/characters/new")}>
-            Create Character
-          </Button>
-        </Col>
-      </Row>
-      <Row>{renderTable()}</Row>
-    </Container>
+    <>
+      <CPageHeader className="d-flex" test>
+        <h2>Your Characters</h2>
+        <Button className="ms-3" onClick={() => navigate("/characters/new")}>
+          Create Character
+        </Button>
+      </CPageHeader>
+      <Container id="characters-page" className="pt-3">
+        <Row>{renderTable()}</Row>
+      </Container>
+    </>
   );
 };
 

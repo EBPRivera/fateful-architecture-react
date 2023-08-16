@@ -104,7 +104,7 @@ const NewCharacterForm = ({ onSubmit, submitting, errors }) => {
   return (
     <Container className="character-form">
       <Row>
-        <Col as={Card}>
+        <Col as={Card} className="p-3">
           <Form onSubmit={handleSubmitForm}>
             <Container>
               <Row>

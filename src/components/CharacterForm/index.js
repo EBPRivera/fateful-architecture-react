@@ -56,7 +56,7 @@ const CharacterForm = ({
   return (
     <Container className="character-form">
       <Row>
-        <Col as={Card}>
+        <Col as={Card} className="p-3">
           <Form onSubmit={submitForm}>
             <Container>
               <Row>

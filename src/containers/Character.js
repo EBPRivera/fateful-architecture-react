@@ -27,12 +27,15 @@ const Character = () => {
     } else {
       setCharacter(location.state.character);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  useEffect(() => {
     return () => {
       handleUpdateCharacter();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [character]);
 
   const handleUpdateCharacter = async () => {
     if (_.isUndefined(character)) return;

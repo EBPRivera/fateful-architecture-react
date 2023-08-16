@@ -26,6 +26,7 @@ const INIT_ENTRIES = {
   awareness: "d6",
   prowess: "d6",
   resilience: "d6",
+  limit: 20,
 };
 
 const CharacterForm = ({
@@ -35,17 +36,15 @@ const CharacterForm = ({
   errors,
 }) => {
   const [input, setInput] = useState(defaultCharacter);
-  const [limit, setLimit] = useState(20);
 
-  const submitForm = (event) => {
+  const handleSubmitForm = (event) => {
     event.preventDefault();
 
     onSubmit({
       ...input,
       description: removeEmptyParagraphs(input.description),
-      limit,
-      stamina: limit,
-      endurance: limit,
+      stamina: input.limit,
+      endurance: input.limit,
     });
   };
 
@@ -57,7 +56,7 @@ const CharacterForm = ({
     <Container className="character-form">
       <Row>
         <Col as={Card} className="p-3">
-          <Form onSubmit={submitForm}>
+          <Form onSubmit={handleSubmitForm}>
             <Container>
               <Row>
                 <CTextInput
@@ -83,10 +82,10 @@ const CharacterForm = ({
                     title="Level and Limit"
                     onChange={(newValue) => {
                       handleChangeInput("level", newValue);
-                      setLimit(20 + (newValue - 1) * 5);
+                      handleChangeInput("limit", 20 + (newValue - 1) * 5);
                     }}
                     level={input.level}
-                    limit={limit}
+                    limit={input.limit}
                   />
                 </Col>
               </Row>

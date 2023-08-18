@@ -1,5 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap";
 
+import ConstitutionStat from "./ConstitutionStat";
 import CharacterStat from "./CharacterStat";
 import CCard from "../Custom/CCard";
 
@@ -22,19 +23,19 @@ const ConstitutionStats = ({ stats, onChange }) => {
       <Container>
         <Row>
           <Col>
-            <CharacterStat
+            <ConstitutionStat
+              maxValue={stats.endurance}
+              onChange={handleChangeStamina}
               title="Stamina"
               value={stats.stamina}
-              editable
-              onChange={handleChangeStamina}
             />
           </Col>
           <Col>
-            <CharacterStat
+            <ConstitutionStat
+              maxValue={stats.limit}
+              onChange={handleChangeEndurance}
               title="Endurance"
               value={stats.endurance}
-              editable
-              onChange={handleChangeEndurance}
             />
           </Col>
           <Col>

@@ -102,7 +102,7 @@ const NewCharacterForm = ({ onSubmit, submitting, errors }) => {
   };
 
   return (
-    <Container className="character-form">
+    <Container className="character-form new-character-form">
       <Row>
         <Col as={Card} className="p-3">
           <Form onSubmit={handleSubmitForm}>
@@ -129,7 +129,7 @@ const NewCharacterForm = ({ onSubmit, submitting, errors }) => {
                 <Col as="h2">Stat Allocation</Col>
               </Row>
               <Row>
-                <Col className="pb-3">
+                <Col className="pb-3" xs={12} lg={6}>
                   <AttributeStatsForm
                     onChangeProfile={handleChangeProfile}
                     onChangeStatAllocation={handleChangeStatAllocation}
@@ -139,7 +139,7 @@ const NewCharacterForm = ({ onSubmit, submitting, errors }) => {
                     type="base"
                   />
                 </Col>
-                <Col className="pb-3">
+                <Col className="pb-3" xs={12} lg={6}>
                   <AttributeStatsForm
                     onChangeProfile={handleChangeProfile}
                     onChangeStatAllocation={handleChangeStatAllocation}

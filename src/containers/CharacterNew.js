@@ -53,7 +53,7 @@ const CharacterNew = () => {
       <CPageHeader>
         <h2>Create Your Character</h2>
       </CPageHeader>
-      <Container id="new-character-page" className="pt-3">
+      <Container id="new-character-page" className="py-3">
         <NewCharacterForm
           onSubmit={handleCreateCharacter}
           submitting={submitting}

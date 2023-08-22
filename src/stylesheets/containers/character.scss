@@ -9,6 +9,19 @@
     }
   }
 
+  .character-tabs {
+    .nav-item {
+      button:not(.active) {
+        background-color: var(--bs-secondary-bg, #e9ecef);
+      }
+    }
+  }
+
+  .tab-pane > .card {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+  }
+
   @include media-breakpoint-down(sm) {
     .attribute-stats > .col:not(:last-child) {
       margin-bottom: 1rem;

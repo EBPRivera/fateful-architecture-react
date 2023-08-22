@@ -22,8 +22,8 @@
     border-top-right-radius: 0px;
   }
 
-  @include media-breakpoint-down(sm) {
-    .attribute-stats > .col:not(:last-child) {
+  @include media-breakpoint-down(lg) {
+    .attribute-stats-col > .col-lg-6:not(:last-child) {
       margin-bottom: 1rem;
     }
   }

@@ -24,15 +24,15 @@ const CharacterStats = ({ character, onChange }) => {
   return (
     <Container>
       <Row>
-        <Col className="constitution-stats">
+        <Col className="constitution-stats-col">
           <ConstitutionStats stats={constitution} onChange={onChange} />
         </Col>
       </Row>
-      <Row className="attribute-stats">
-        <Col className="base-stats">
+      <Row className="attribute-stats-col">
+        <Col className="base-stats" lg={6}>
           <AttributeStats title="Base Stats" stats={baseStats} />
         </Col>
-        <Col className="complementary-stats">
+        <Col className="complementary-stats-col" lg={6}>
           <AttributeStats
             title="Complementary Stats"
             stats={complementaryStats}

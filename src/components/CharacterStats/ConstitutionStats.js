@@ -19,10 +19,10 @@ const ConstitutionStats = ({ stats, onChange }) => {
   };
 
   return (
-    <CCard title="Constitution">
+    <CCard className="constitution-stats" title="Constitution">
       <Container>
         <Row>
-          <Col>
+          <Col sm={12} md={4}>
             <ConstitutionStat
               maxValue={stats.endurance}
               onChange={handleChangeStamina}
@@ -30,7 +30,7 @@ const ConstitutionStats = ({ stats, onChange }) => {
               value={stats.stamina}
             />
           </Col>
-          <Col>
+          <Col sm={12} md={4}>
             <ConstitutionStat
               maxValue={stats.limit}
               onChange={handleChangeEndurance}
@@ -38,7 +38,7 @@ const ConstitutionStats = ({ stats, onChange }) => {
               value={stats.endurance}
             />
           </Col>
-          <Col>
+          <Col sm={12} md={4}>
             <CharacterStat title="Limit" value={stats.limit} />
           </Col>
         </Row>

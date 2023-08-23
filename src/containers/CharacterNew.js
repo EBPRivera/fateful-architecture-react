@@ -3,10 +3,12 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Container } from "react-bootstrap";
 
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import useAuthorized from "../hooks/useAuthorized";
 import { createGuestCharacter } from "../features/guestCharacter";
+import CPageHeader from "../components/Custom/CPageHeader";
 import NewCharacterForm from "../components/NewCharacterForm";
 
 const CharacterNew = () => {
@@ -18,11 +20,11 @@ const CharacterNew = () => {
   const isAuthorized = useAuthorized();
   const dispatch = useDispatch();
 
-  const createCharacter = async (character) => {
+  const handleCreateCharacter = async (character) => {
     setSubmitting(true);
 
     if (isAuthorized) {
-      axiosInstance
+      await axiosInstance
         .post(`users/${id}/characters`, { character })
         .then(() => {
           navigate("/characters");
@@ -31,24 +33,34 @@ const CharacterNew = () => {
           if (!_.isUndefined(e.response) && !_.isNull(e.response)) {
             setErrors(e.response.data);
           }
-          setSubmitting(false);
         });
     } else {
-      dispatch(createGuestCharacter({ character }));
-      setSubmitting(false);
-      navigate("/characters");
+      if (_.isEmpty(character.name)) {
+        setErrors({ name: ["can't be blank"] });
+      } else {
+        dispatch(createGuestCharacter({ character }));
+        navigate(`/characters/${_.kebabCase(character.name)}`, {
+          state: { character },
+        });
+      }
     }
+
+    setSubmitting(false);
   };
 
   return (
-    <div id="new-character-page">
-      <h1>New Character</h1>
-      <NewCharacterForm
-        onSubmit={createCharacter}
-        submitting={submitting}
-        errors={errors}
-      />
-    </div>
+    <>
+      <CPageHeader>
+        <h2>Create Your Character</h2>
+      </CPageHeader>
+      <Container id="new-character-page" className="py-3">
+        <NewCharacterForm
+          onSubmit={handleCreateCharacter}
+          submitting={submitting}
+          errors={errors}
+        />
+      </Container>
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Container, Row, Col, Form } from "react-bootstrap";
 
-import SACard from "../Custom/SACard";
+import CCard from "../Custom/CCard";
 import dieSizes from "../../json/dieSizes";
 
 const AttributeStatsForm = ({ stats, title, onChange }) => {
@@ -37,11 +37,11 @@ const AttributeStatsForm = ({ stats, title, onChange }) => {
   };
 
   return (
-    <SACard title={title}>
+    <CCard title={title}>
       <Container>
         <Row>{renderEditableForm()}</Row>
       </Container>
-    </SACard>
+    </CCard>
   );
 };
 

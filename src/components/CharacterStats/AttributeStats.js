@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Container, Row, Col } from "react-bootstrap";
 
-import SACard from "../Custom/SACard";
+import CCard from "../Custom/CCard";
 import CharacterStat from "./CharacterStat";
 
 const AttributeStats = ({ stats, title }) => {
@@ -10,7 +10,7 @@ const AttributeStats = ({ stats, title }) => {
       const { title, value } = stat;
 
       return (
-        <Col key={key}>
+        <Col key={key} sm={12} md={4}>
           <CharacterStat title={title} value={value} />
         </Col>
       );
@@ -18,11 +18,11 @@ const AttributeStats = ({ stats, title }) => {
   };
 
   return (
-    <SACard title={title}>
+    <CCard className="attribute-stats" title={title}>
       <Container>
         <Row>{renderStatsCollection()}</Row>
       </Container>
-    </SACard>
+    </CCard>
   );
 };
 

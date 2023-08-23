@@ -1,6 +1,6 @@
 import { Alert } from "react-bootstrap";
 
-const SAError = ({
+const CError = ({
   children,
   heading = "Detected an Error",
   onClose = () => {},
@@ -14,4 +14,4 @@ const SAError = ({
   );
 };
 
-export default SAError;
+export default CError;

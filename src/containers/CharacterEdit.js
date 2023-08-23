@@ -2,11 +2,13 @@ import _ from "lodash";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import useAuthorized from "../hooks/useAuthorized";
 import { createGuestCharacter } from "../features/guestCharacter";
 import CharacterForm from "../components/CharacterForm";
+import CPageHeader from "../components/Custom/CPageHeader";
 
 const CharacterEdit = () => {
   const location = useLocation();
@@ -30,13 +32,15 @@ const CharacterEdit = () => {
 
   const navigateFromPage = (character) => {
     if (_.isUndefined(location.state.from)) {
-      navigate("/characters");
+      navigate(`/characters/${_.kebabCase(character.name)}`, {
+        state: { character },
+      });
     } else {
       navigate(location.state.from, { state: { character } });
     }
   };
 
-  const editCharacter = async (character) => {
+  const handleEditCharacter = async (character) => {
     const { id } = location.state.character;
     setSubmitting(true);
 
@@ -59,17 +63,21 @@ const CharacterEdit = () => {
   };
 
   return (
-    <div id="edit-character-page">
-      <h1>Editing: {location.state.character.name}</h1>
-      {hasCharacter && (
-        <CharacterForm
-          submitting={submitting}
-          onSubmit={editCharacter}
-          defaultCharacter={location.state.character}
-          errors={errors}
-        />
-      )}
-    </div>
+    <>
+      <CPageHeader>
+        <h2>Editing {location.state.character.name}</h2>
+      </CPageHeader>
+      <Container id="edit-character-page" className="pt-3">
+        {hasCharacter && (
+          <CharacterForm
+            submitting={submitting}
+            onSubmit={handleEditCharacter}
+            defaultCharacter={location.state.character}
+            errors={errors}
+          />
+        )}
+      </Container>
+    </>
   );
 };
 

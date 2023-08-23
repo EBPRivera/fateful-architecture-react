@@ -1,45 +1,49 @@
 import { Container, Row, Col } from "react-bootstrap";
 
+import ConstitutionStat from "./ConstitutionStat";
 import CharacterStat from "./CharacterStat";
-import SACard from "../Custom/SACard";
+import CCard from "../Custom/CCard";
 
 const ConstitutionStats = ({ stats, onChange }) => {
+  const handleChangeStamina = (value) => {
+    if (value <= stats.endurance && value > 0) {
+      onChange({ ...stats, stamina: value });
+    }
+  };
+
+  const handleChangeEndurance = (value) => {
+    if (value <= stats.limit && value > 0) {
+      const stamina = stats.stamina > value ? value : stats.stamina;
+      onChange({ ...stats, stamina, endurance: value });
+    }
+  };
+
   return (
-    <SACard title="Constitution">
+    <CCard className="constitution-stats" title="Constitution">
       <Container>
         <Row>
-          <Col>
-            <CharacterStat
+          <Col sm={12} md={4}>
+            <ConstitutionStat
+              maxValue={stats.endurance}
+              onChange={handleChangeStamina}
               title="Stamina"
               value={stats.stamina}
-              editable
-              onChange={(value) => {
-                onChange({
-                  ...stats,
-                  stamina: value,
-                });
-              }}
             />
           </Col>
-          <Col>
-            <CharacterStat
+          <Col sm={12} md={4}>
+            <ConstitutionStat
+              maxValue={stats.limit}
+              onChange={handleChangeEndurance}
               title="Endurance"
               value={stats.endurance}
-              editable
-              onChange={(value) =>
-                onChange({
-                  ...stats,
-                  endurance: value,
-                })
-              }
             />
           </Col>
-          <Col>
+          <Col sm={12} md={4}>
             <CharacterStat title="Limit" value={stats.limit} />
           </Col>
         </Row>
       </Container>
-    </SACard>
+    </CCard>
   );
 };
 

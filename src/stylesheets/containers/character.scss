@@ -4,7 +4,26 @@
   }
 
   .character-stats {
-    .container > .row {
+    .container > .row:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .character-tabs {
+    .nav-item {
+      button:not(.active) {
+        background-color: var(--bs-secondary-bg, #e9ecef);
+      }
+    }
+  }
+
+  .tab-pane > .card {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+  }
+
+  @include media-breakpoint-down(lg) {
+    .attribute-stats-col > .col-lg-6:not(:last-child) {
       margin-bottom: 1rem;
     }
   }

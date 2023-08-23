@@ -5,22 +5,20 @@ import { useSelector } from "react-redux";
 import { Spinner, Container, Row, Col, Button } from "react-bootstrap";
 
 import useAuthorized from "../hooks/useAuthorized";
-import useGuest from "../hooks/useGuest";
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import { INITIAL_ERROR } from "../globals";
 import CharactersList from "../components/CharactersList";
-import SAError from "../components/Custom/SAError";
+import CError from "../components/Custom/CError";
+import CPageHeader from "../components/Custom/CPageHeader";
 
 const Characters = () => {
   const navigate = useNavigate();
   const axiosInstance = useAxiosInstance();
   const { id } = useSelector((state) => state.user);
-  const { character } = useSelector((state) => state.guestCharacter);
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(INITIAL_ERROR);
   const isAuthorized = useAuthorized();
-  const isGuest = useGuest();
 
   const fetchCharacters = async () => {
     setIsLoading(true);
@@ -40,12 +38,6 @@ const Characters = () => {
   useEffect(() => {
     if (isAuthorized) {
       fetchCharacters();
-    } else if (isGuest) {
-      if (_.isNull(character)) {
-        setCharacters([]);
-      } else {
-        setCharacters([character]);
-      }
     } else {
       navigate("/");
     }
@@ -69,9 +61,9 @@ const Characters = () => {
           {_.map(error.messages, (message, key) => (
             <Row key={key}>
               <Col>
-                <SAError dismissible onClose={() => setError(INITIAL_ERROR)}>
+                <CError dismissible onClose={() => setError(INITIAL_ERROR)}>
                   {message}
-                </SAError>
+                </CError>
               </Col>
             </Row>
           ))}
@@ -88,19 +80,17 @@ const Characters = () => {
   };
 
   return (
-    <Container id="characters-page">
-      <Row>
-        <h1>Characters Page</h1>
-      </Row>
-      <Row className="mb-3">
-        <Col className="actions">
-          <Button onClick={() => navigate("/characters/new")}>
-            Create Character
-          </Button>
-        </Col>
-      </Row>
-      <Row>{renderTable()}</Row>
-    </Container>
+    <>
+      <CPageHeader className="d-flex" test>
+        <h2>Your Characters</h2>
+        <Button className="ms-3" onClick={() => navigate("/characters/new")}>
+          Create Character
+        </Button>
+      </CPageHeader>
+      <Container id="characters-page" className="pt-3">
+        <Row>{renderTable()}</Row>
+      </Container>
+    </>
   );
 };
 

@@ -1,9 +1,9 @@
 import _ from "lodash";
 import { Form } from "react-bootstrap";
 
-import SAInputErrors from "./SAInputErrors";
+import CInputErrors from "./CInputErrors";
 
-const SAPasswordInput = ({ onChange, value, label, errors = [] }) => {
+const CPasswordInput = ({ onChange, value, label, errors = [] }) => {
   return (
     <Form.Group>
       <Form.Label>{label}</Form.Label>
@@ -12,9 +12,9 @@ const SAPasswordInput = ({ onChange, value, label, errors = [] }) => {
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
-      {!_.isEmpty(errors) && <SAInputErrors errors={errors} />}
+      {!_.isEmpty(errors) && <CInputErrors errors={errors} />}
     </Form.Group>
   );
 };
 
-export default SAPasswordInput;
+export default CPasswordInput;

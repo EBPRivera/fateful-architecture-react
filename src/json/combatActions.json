@@ -1,0 +1,70 @@
+{
+  "Minor Actions": {
+    "observe": {
+      "name": "Observe [SOC/MEN AWR]",
+      "description": "Observe an enemy, zone, or element in the battlefield. Information learned depends on check's result."
+    },
+    "swapWeapons": {
+      "name": "Swap Weapons",
+      "description": "Change your equipped weapon/s. The weapon/s you equip must be accessible from your inventory or in the same zone as you."
+    },
+    "performSkill": {
+      "name": "Perform Skill",
+      "description": "Perform a learned combat skill that's specified to be used as a Minor Action."
+    },
+    "useItem": {
+      "name": "Use Item",
+      "description": "Use an item in your inventory that's specified to be used as a Minor Action."
+    }
+  },
+  "Actions": {
+    "weaponMeleeAttack": {
+      "name": "Weapon/Melee Attack [PHYS PROW]",
+      "description": "Attack a target in the same zone as you with an equipped weapon."
+    },
+    "aetherRangedAttack": {
+      "name": "Aether/Ranged Attack [MEN PROW]",
+      "description": "Spend an aether die to attack a target that you can see."
+    },
+    "performSkill": {
+      "name": "Perform Skill",
+      "description": "Perform a learned combat skill that's specified to be used as an Action."
+    },
+    "useItem": {
+      "name": "Use Item",
+      "description": "Use an accessible item in your inventory or in the same zone as you that's specified to be used as an Action."
+    },
+    "objective": {
+      "name": "Accomplish Objective",
+      "description": "Perform an action that increases your progress gauge for the scene."
+    },
+    "other": {
+      "name": "Other",
+      "description": "Improvised action that the GM approves of."
+    }
+  },
+  "Maneuvers": {
+    "move": {
+      "name": "Move",
+      "description": "Move to a zone that you can see.",
+      "notes": [
+        "Moving into a zone with an enemy or through an obstacle stops your movement.",
+        "Restrictions may be applied or removed depending on the situation."
+      ]
+    },
+    "intercept": {
+      "name": "Intercept",
+      "description": "Prevent your target from taking the Move Maneuver until the end of the round for as long as they are in the same zone as you."
+    },
+    "flank": {
+      "name": "Flank",
+      "description": "Mark your target as Flanked until the end of the round for as long as they are in the same zone as you. An ally attacking the Flanked target recieves a bonus for each time the target was Flanked.",
+      "notes": ["You do not benefit from your own Flank Maneuver."]
+    },
+    "defend": {
+      "name": "Defend",
+      "description": "Until the end of the round, temporarily gain a 1d4 defense die which you can spend in place of an aether die when defending against an attack.",
+      "notes": ["Can only be used when no enemy is in the same zone as you."]
+    }
+  }
+}

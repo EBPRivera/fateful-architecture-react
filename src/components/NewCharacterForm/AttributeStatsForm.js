@@ -2,7 +2,7 @@ import _ from "lodash";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from "react-icons/bs";
 
-import SACard from "../Custom/SACard";
+import CCard from "../Custom/CCard";
 import Die from "../Custom/Die";
 import statProfiles from "../../json/statProfiles";
 import stats from "../../json/stats";
@@ -18,13 +18,13 @@ const AttributeStatsForm = ({
   const renderProfileDropdown = () => {
     return (
       <>
-        <Col>
+        <Col xs={4} md={4}>
           <h5>Stat Profile</h5>
         </Col>
-        <Col>
+        <Col xs={2} md={3}>
           <BsChevronDoubleRight />
         </Col>
-        <Col>
+        <Col xs={6} md={5}>
           <Form.Select
             onChange={(e) => onChangeProfile(type, e.target.value)}
             value={profile}
@@ -42,13 +42,13 @@ const AttributeStatsForm = ({
     return _.map(statProfiles[profile], (value, key) => {
       return (
         <Row key={key} className="mb-2 align-items-center">
-          <Col className="d-flex justify-content-center">
+          <Col className="d-flex justify-content-center" xs={3} md={4}>
             <Die size={value} />
           </Col>
-          <Col>
+          <Col xs={2} md={3}>
             <BsChevronDoubleLeft />
           </Col>
-          <Col>
+          <Col xs={7} md={5}>
             <Form.Select
               onChange={(e) =>
                 onChangeStatAllocation(type, key, e.target.value)
@@ -66,7 +66,7 @@ const AttributeStatsForm = ({
   };
 
   return (
-    <SACard title={title}>
+    <CCard title={title}>
       <Container>
         <Row className="mb-3 align-items-center">{renderProfileDropdown()}</Row>
         <hr />
@@ -74,7 +74,7 @@ const AttributeStatsForm = ({
           <Container>{renderStatsDropdown()}</Container>
         </Row>
       </Container>
-    </SACard>
+    </CCard>
   );
 };
 

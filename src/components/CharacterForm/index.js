@@ -11,8 +11,8 @@ import {
 
 import { responseErrors } from "../../helpers/errors";
 import { removeEmptyParagraphs } from "../../helpers/input";
-import SATextInput from "../Custom/SATextInput";
-import SATextArea from "../Custom/SATextArea";
+import CTextInput from "../Custom/CTextInput";
+import CTextArea from "../Custom/CTextArea";
 import AttributeStatsForm from "./AttributeStatsForm";
 import LevelForm from "./LevelForm";
 
@@ -26,6 +26,7 @@ const INIT_ENTRIES = {
   awareness: "d6",
   prowess: "d6",
   resilience: "d6",
+  limit: 20,
 };
 
 const CharacterForm = ({
@@ -35,17 +36,15 @@ const CharacterForm = ({
   errors,
 }) => {
   const [input, setInput] = useState(defaultCharacter);
-  const [limit, setLimit] = useState(20);
 
-  const submitForm = (event) => {
+  const handleSubmitForm = (event) => {
     event.preventDefault();
 
     onSubmit({
       ...input,
       description: removeEmptyParagraphs(input.description),
-      limit,
-      stamina: limit,
-      endurance: limit,
+      stamina: input.limit,
+      endurance: input.limit,
     });
   };
 
@@ -56,11 +55,11 @@ const CharacterForm = ({
   return (
     <Container className="character-form">
       <Row>
-        <Col as={Card}>
-          <Form onSubmit={submitForm}>
+        <Col as={Card} className="p-3">
+          <Form onSubmit={handleSubmitForm}>
             <Container>
               <Row>
-                <SATextInput
+                <CTextInput
                   label="Name"
                   value={input.name}
                   onChange={(newValue) => handleChangeInput("name", newValue)}
@@ -68,7 +67,7 @@ const CharacterForm = ({
                 />
               </Row>
               <Row>
-                <SATextArea
+                <CTextArea
                   label="Description"
                   value={input.description}
                   onChange={(newValue) =>
@@ -83,10 +82,10 @@ const CharacterForm = ({
                     title="Level and Limit"
                     onChange={(newValue) => {
                       handleChangeInput("level", newValue);
-                      setLimit(20 + (newValue - 1) * 5);
+                      handleChangeInput("limit", 20 + (newValue - 1) * 5);
                     }}
                     level={input.level}
-                    limit={limit}
+                    limit={input.limit}
                   />
                 </Col>
               </Row>

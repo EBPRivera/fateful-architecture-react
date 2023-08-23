@@ -2,22 +2,12 @@ import _ from "lodash";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Form,
-  Button,
-  Spinner,
-} from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import { login } from "../features/user";
-import { INITIAL_ERROR } from "../globals";
-import SATextInput from "../components/Custom/SATextInput";
-import SAPasswordInput from "../components/Custom/SAPasswordInput";
-import SAError from "../components/Custom/SAError";
+import AuthForm from "../components/Custom/AuthForm";
+import CError from "../components/Custom/CError";
 
 const INITIAL_INPUT = {
   username: "",
@@ -25,16 +15,19 @@ const INITIAL_INPUT = {
   passwordConfirmation: "",
 };
 
-const INITIAL_FIELD_ERRORS = {
-  username: [],
-  password: [],
+const INITIAL_SIGNUP_ERRORS = {
+  field: {
+    username: [],
+    password: [],
+    passwordConfirmation: [],
+  },
+  general: [],
 };
 
 const Signup = () => {
   const [input, setInput] = useState(INITIAL_INPUT);
-  const [loading, setLoading] = useState(false);
-  const [generalErrors, setGeneralErrors] = useState(INITIAL_ERROR);
-  const [fieldErrors, setFieldErrors] = useState(INITIAL_FIELD_ERRORS);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState(INITIAL_SIGNUP_ERRORS);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const axiosInstance = useAxiosInstance();
@@ -43,11 +36,18 @@ const Signup = () => {
     setInput((input) => ({ ...input, [key]: value }));
   };
 
+  const handleCloseErrorMessage = (message) => {
+    setErrors((errors) => ({
+      ...errors,
+      general: _.remove(errors.general, (error) => _.isEqual(error, message)),
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { username, password, passwordConfirmation } = input;
 
-    setLoading(true);
+    setIsLoading(true);
 
     await axiosInstance
       .post("/users", {
@@ -61,86 +61,52 @@ const Signup = () => {
       })
       .catch((e) => {
         if (!_.isNull(e.response) && !_.isUndefined(e.response)) {
-          setFieldErrors(
-            _.mapKeys(e.response.data, (val, key) => _.camelCase(key))
-          );
+          setErrors((errors) => ({
+            ...errors,
+            field: _.mapKeys(e.response.data, (val, key) => _.camelCase(key)),
+          }));
         } else {
-          setGeneralErrors({ hasError: true, messages: [e.message] });
+          setErrors((errors) => ({ ...errors, general: [e.message] }));
         }
       });
 
-    setLoading(false);
+    setIsLoading(false);
   };
 
   const renderErrorMessages = () =>
-    _.map(generalErrors.messages, (message, key) => (
+    _.map(errors.general, (message, key) => (
       <Row key={key}>
         <Col>
-          <SAError onClose={() => setGeneralErrors(INITIAL_ERROR)} dismissible>
+          <CError onClose={() => handleCloseErrorMessage(message)} dismissible>
             {message}
-          </SAError>
+          </CError>
         </Col>
       </Row>
     ));
 
   return (
-    <div id="signup-page">
-      <h1>Signup Page</h1>
-      <Container>
-        {generalErrors.hasError && renderErrorMessages()}
-        <Row>
-          <Col as={Card}>
-            <Form onSubmit={handleSubmit}>
-              <Container className="form-container">
-                <Row className="mb-3">
-                  <Col>
-                    <SATextInput
-                      label="Username"
-                      onChange={(newValue) =>
-                        handleChangeInput("username", newValue)
-                      }
-                      value={input.username}
-                      errors={fieldErrors.username}
-                    />
-                  </Col>
-                </Row>
-                <Row className="mb-3">
-                  <Col>
-                    <SAPasswordInput
-                      label="Password"
-                      onChange={(newValue) =>
-                        handleChangeInput("password", newValue)
-                      }
-                      value={input.password}
-                      errors={fieldErrors.password}
-                    />
-                  </Col>
-                </Row>
-                <Row className="mb-3">
-                  <Col>
-                    <SAPasswordInput
-                      label="Confirm Password"
-                      onChange={(newValue) =>
-                        handleChangeInput("passwordConfirmation", newValue)
-                      }
-                      value={input.passwordConfirmation}
-                      errors={fieldErrors.passwordConfirmation}
-                    />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Button type="submit">
-                      {loading ? <Spinner as="span" size="sm" /> : "Submit"}
-                    </Button>
-                  </Col>
-                </Row>
-              </Container>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+    <Container id="signup-page" className="pt-3">
+      {!_.isEmpty(errors.general) && renderErrorMessages()}
+      <Row md="3" className="justify-content-center">
+        <Col as={Card} className="p-4">
+          <Container>
+            <Row>
+              <h2>Sign Up</h2>
+            </Row>
+            <Row>
+              <AuthForm
+                buttonText="Sign Up"
+                errors={errors.field}
+                loading={isLoading}
+                onChange={handleChangeInput}
+                onSubmit={handleSubmit}
+                hasPasswordConfirmation
+              />
+            </Row>
+          </Container>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

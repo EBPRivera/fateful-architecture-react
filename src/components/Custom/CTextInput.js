@@ -1,9 +1,9 @@
 import _ from "lodash";
 import { Form } from "react-bootstrap";
 
-import InputErrors from "./SAInputErrors";
+import CInputErrors from "./CInputErrors";
 
-const SATextInput = ({ onChange, value, label, errors = [] }) => {
+const CTextInput = ({ onChange, value, label, errors = [] }) => {
   return (
     <Form.Group>
       <Form.Label>{label}</Form.Label>
@@ -12,9 +12,9 @@ const SATextInput = ({ onChange, value, label, errors = [] }) => {
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
-      {!_.isEmpty(errors) && <InputErrors errors={errors} />}
+      {!_.isEmpty(errors) && <CInputErrors errors={errors} />}
     </Form.Group>
   );
 };
 
-export default SATextInput;
+export default CTextInput;

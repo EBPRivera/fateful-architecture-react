@@ -1,0 +1,7 @@
+.constitution-stats {
+  @include media-breakpoint-down(sm) {
+    .col-sm-12:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+}

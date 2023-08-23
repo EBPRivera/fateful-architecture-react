@@ -1,15 +1,15 @@
 import { Container, Row, Col } from "react-bootstrap";
 
-import SACard from "../Custom/SACard";
+import CCard from "../Custom/CCard";
 
 const CharacterSkills = () => {
   return (
     <Container>
       <Row>
         <Col>
-          <SACard title="Skills">
+          <CCard title="Skills">
             <h3>Feature incoming</h3>
-          </SACard>
+          </CCard>
         </Col>
       </Row>
     </Container>

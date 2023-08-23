@@ -1,6 +1,7 @@
+import _ from "lodash";
 import { useNavigate } from "react-router";
 import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { logout, guestLogin } from "../features/user";
 import { deleteGuestCharacter } from "../features/guestCharacter";
@@ -10,12 +11,12 @@ import useGuest from "../hooks/useGuest";
 const NavigationBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const guestCharacter = useSelector((state) => state.guestCharacter);
   const isAuthorized = useAuthorized();
   const isGuest = useGuest();
 
-  const handleNavigate = ({ target }) => {
-    const { name } = target;
-    navigate(name);
+  const handleNavigate = (e, state = {}) => {
+    navigate(e.target.name, state);
   };
 
   const handleLogout = () => {
@@ -30,13 +31,34 @@ const NavigationBar = () => {
   };
 
   const renderAuthMenuItems = () => {
-    if (!isAuthorized && !isGuest) return;
-
     return (
       <Nav.Link name="/characters" onClick={handleNavigate}>
         Characters
       </Nav.Link>
     );
+  };
+
+  const renderGuestMenuItems = () => {
+    const { character } = guestCharacter;
+
+    if (_.isNull(character)) {
+      return (
+        <Nav.Link name="/characters/new" onClick={handleNavigate}>
+          Create Character
+        </Nav.Link>
+      );
+    } else {
+      return (
+        <Nav.Link
+          name={`/characters/${_.kebabCase(character.name)}`}
+          onClick={(e) => {
+            handleNavigate(e, { state: { character } });
+          }}
+        >
+          Your Character
+        </Nav.Link>
+      );
+    }
   };
 
   const renderAuthLink = () => {
@@ -70,7 +92,8 @@ const NavigationBar = () => {
             <Nav.Link name="/" onClick={handleNavigate}>
               Home
             </Nav.Link>
-            {renderAuthMenuItems()}
+            {isAuthorized && renderAuthMenuItems()}
+            {isGuest && renderGuestMenuItems()}
             <Nav.Link name="/skills" onClick={handleNavigate}>
               Skills
             </Nav.Link>

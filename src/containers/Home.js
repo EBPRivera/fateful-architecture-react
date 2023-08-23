@@ -1,38 +1,61 @@
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
+
+import CPageHeader from "../components/Custom/CPageHeader";
 
 const Home = () => {
   return (
-    <div id="home-page">
-      <div>
-        <Container>
-          <h3 className="py-3 mb-0">Welcome to Scaena</h3>
-        </Container>
+    <>
+      <CPageHeader>
+        <h1>Welcome to Fateful Architecture</h1>
+      </CPageHeader>
+      <div id="home-page" className="py-3">
+        <div>
+          <Container>
+            <Row>
+              <Col className="text-end">
+                <h1>Your World</h1>
+                <p className="px-0">
+                  Build a world unique to you and your group. Build kingdoms,
+                  islands, and mountains. Introduce its inhabitants and people
+                  of interest. Make history happen through important events.
+                  Bring life to your world &mdash; give it a reason to be saved.
+                </p>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+        <div className="py-3">
+          <Container>
+            <Row>
+              <Col>
+                <h1>Your Character</h1>
+                <p className="px-0">
+                  Live through the eyes of your character and immerse yourself
+                  in a world with endless possibilities. Through their shoes may
+                  you explore, meet new people, and leave your mark in the
+                  world's ever-growing history.
+                </p>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+        <div className="py-3">
+          <Container>
+            <Row>
+              <Col className="text-end">
+                <h1>Your Story</h1>
+                <p className="px-0">
+                  Take the first step in your journey and redefine the world
+                  through your actions. Witness and struggle so that you may
+                  forge bonds and create unforgettable memories &mdash; not just
+                  within your game, but with your fellow players.
+                </p>
+              </Col>
+            </Row>
+          </Container>
+        </div>
       </div>
-      <div>
-        <Container>
-          <p className="px-0">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-            condimentum fringilla nibh et commodo. Suspendisse at rhoncus neque,
-            vitae condimentum nibh. Nam et erat sed augue sodales lacinia
-            vulputate a tellus. Nam mollis odio ac urna hendrerit, vitae
-            vehicula purus imperdiet. In hac habitasse platea dictumst. Sed
-            feugiat nec diam sit amet tincidunt. Morbi dignissim urna eget sem
-            venenatis congue.
-          </p>
-          <p className="px-0">
-            Suspendisse lacinia tristique risus, eget placerat sapien accumsan
-            non. Curabitur tincidunt, dolor sit amet posuere rutrum, enim dolor
-            tincidunt est, laoreet condimentum lacus mauris non sapien. Donec ac
-            nisl vel ipsum commodo iaculis eu ut arcu. Pellentesque eleifend
-            vehicula massa eget porttitor. Sed porta quis mauris sit amet
-            dignissim. Pellentesque id neque sed odio mollis convallis. Nulla
-            nec odio lorem. Etiam ornare efficitur aliquet. Curabitur non
-            maximus urna, sed lacinia neque. Duis neque arcu, interdum vitae
-            sodales eu, iaculis a nulla.
-          </p>
-        </Container>
-      </div>
-    </div>
+    </>
   );
 };
 

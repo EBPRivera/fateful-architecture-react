@@ -66,7 +66,12 @@ const Signup = () => {
             field: _.mapKeys(e.response.data, (val, key) => _.camelCase(key)),
           }));
         } else {
-          setErrors((errors) => ({ ...errors, general: [e.message] }));
+          setErrors((errors) => ({
+            ...errors,
+            general: [
+              "API Temporarily unavailable. Please login as guest instead",
+            ],
+          }));
         }
       });
 

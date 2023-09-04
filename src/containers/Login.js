@@ -47,7 +47,9 @@ const Login = () => {
         if (!_.isNull(e.response) && !_.isUndefined(e.response)) {
           setErrors(responseErrors(e.response.data, "base"));
         } else {
-          setErrors([e.message]);
+          setErrors([
+            "API Temporarily unavailable. Please login as guest instead",
+          ]);
         }
       });
 

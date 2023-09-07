@@ -23,6 +23,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
   reducer: persistedReducer,
   middleware: [thunk],
+  devTools: process.env.REACT_APP_ENV !== "production",
 });
 
 const persistor = persistStore(store);

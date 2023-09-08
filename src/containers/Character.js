@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, Tabs, Tab, Card } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,6 +15,7 @@ import CPageHeader from "../components/Custom/CPageHeader";
 
 const Character = () => {
   const [character, setCharacter] = useState();
+  const characterRef = useRef();
   const location = useLocation();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
@@ -27,18 +28,16 @@ const Character = () => {
       navigate("/characters");
     } else {
       setCharacter(location.state.character);
+      characterRef.current = location.state.character;
     }
+
+    return () => {
+      handleUpdateCharacter(characterRef.current);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    return () => {
-      handleUpdateCharacter();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [character]);
-
-  const handleUpdateCharacter = async () => {
+  const handleUpdateCharacter = async (character) => {
     if (_.isUndefined(character)) return;
 
     if (isAuthorized) {
@@ -52,10 +51,11 @@ const Character = () => {
 
   const handleChangeConstitution = (constitution) => {
     setCharacter((character) => ({ ...character, ...constitution }));
+    characterRef.current = { ...characterRef.current, ...constitution };
   };
 
   const renderDescription = () => {
-    const { description } = character;
+    const { description } = characterRef.current;
 
     let paragraphs = [];
     if (_.isEmpty(description)) {

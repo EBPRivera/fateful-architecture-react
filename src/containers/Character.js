@@ -1,16 +1,15 @@
 import _ from "lodash";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button, Tabs, Tab, Card } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 
 import useAuthorized from "../hooks/useAuthorized";
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import { updateGuestCharacter } from "../features/guestCharacter";
-import combatActions from "../json/combatActions";
+import CharacterTabs from "../components/CharacterTabs";
 import CharacterStats from "../components/CharacterStats";
 import CharacterSkills from "../components/CharacterSkills";
-import CCard from "../components/Custom/CCard";
 import CPageHeader from "../components/Custom/CPageHeader";
 
 const Character = () => {
@@ -54,77 +53,6 @@ const Character = () => {
     characterRef.current = { ...characterRef.current, ...constitution };
   };
 
-  const renderDescription = () => {
-    const { description } = characterRef.current;
-
-    let paragraphs = [];
-    if (_.isEmpty(description)) {
-      paragraphs = ["No description provided"];
-    } else {
-      paragraphs = _.split(description, "\n");
-    }
-
-    return (
-      <CCard>
-        {_.map(paragraphs, (paragraph, key) => (
-          <p key={key}>{paragraph}</p>
-        ))}
-      </CCard>
-    );
-  };
-
-  const renderNotes = (notes) => {
-    if (_.isUndefined(notes) || _.isEmpty(notes)) return;
-
-    return (
-      <ul>
-        {_.map(notes, (note, key) => {
-          return <li key={key}>{note}</li>;
-        })}
-      </ul>
-    );
-  };
-
-  const renderCombatActions = () => {
-    return (
-      <Card className="p-3">
-        <ul>
-          {_.map(combatActions, (combatAction, combatActionKey) => {
-            return (
-              <li key={combatActionKey}>
-                <b>{combatActionKey}</b>
-                <ol>
-                  {_.map(combatAction, (action, actionKey) => {
-                    return (
-                      <li className="pb-2" key={actionKey}>
-                        <b>{`${action.name}. `}</b>
-                        {action.description}
-                        {renderNotes(action.notes)}
-                      </li>
-                    );
-                  })}
-                </ol>
-              </li>
-            );
-          })}
-        </ul>
-      </Card>
-    );
-  };
-
-  const renderLookup = () => {
-    return (
-      <Tabs className="character-tabs" defaultActiveKey="description">
-        <Tab eventKey="description" title="Description">
-          {renderDescription()}
-        </Tab>
-        <Tab eventKey="combatActions" title="Combat Actions">
-          {renderCombatActions()}
-        </Tab>
-      </Tabs>
-    );
-  };
-
   const renderHeader = () => {
     if (_.isUndefined(character)) return;
     const { name } = character;
@@ -158,7 +86,9 @@ const Character = () => {
     return (
       <>
         <Row className="character-heading">
-          <Col>{renderLookup()}</Col>
+          <Col>
+            <CharacterTabs character={characterRef.current} />
+          </Col>
         </Row>
         <Row className="character-stats">
           <CharacterStats

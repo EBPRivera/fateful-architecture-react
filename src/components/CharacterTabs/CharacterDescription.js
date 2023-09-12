@@ -1,6 +1,5 @@
 import _ from "lodash";
-
-import CCard from "../Custom/CCard";
+import { Card } from "react-bootstrap";
 
 const CharacterDescription = ({ description }) => {
   let paragraphs = [];
@@ -11,11 +10,11 @@ const CharacterDescription = ({ description }) => {
   }
 
   return (
-    <CCard>
+    <Card className="p-3">
       {_.map(paragraphs, (paragraph, key) => (
         <p key={key}>{paragraph}</p>
       ))}
-    </CCard>
+    </Card>
   );
 };
 

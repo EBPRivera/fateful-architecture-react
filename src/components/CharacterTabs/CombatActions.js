@@ -15,7 +15,7 @@ const renderNotes = (notes) => {
   );
 };
 
-const CharacterCombatActions = () => {
+const CombatActions = () => {
   return (
     <Card className="p-3">
       <ul>
@@ -42,4 +42,4 @@ const CharacterCombatActions = () => {
   );
 };
 
-export default CharacterCombatActions;
+export default CombatActions;

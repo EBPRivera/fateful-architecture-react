@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Container } from "react-bootstrap";
 
+import hasEmpty from "../helpers/hasEmpty";
 import useAxiosInstance from "../hooks/useAxiosInstance";
 import useAuthorized from "../hooks/useAuthorized";
 import { createGuestCharacter } from "../features/guestCharacter";
@@ -19,6 +20,25 @@ const CharacterNew = () => {
   const navigate = useNavigate();
   const isAuthorized = useAuthorized();
   const dispatch = useDispatch();
+
+  const hasUnauthorizedErrors = (character) => {
+    let hasErrors = false;
+    let errors = {};
+
+    if (_.isEmpty(character.name)) {
+      errors = { ...errors, name: ["can't be blank"] };
+      hasErrors = true;
+    }
+    if (
+      hasEmpty(_.map(character.connections, (connection) => connection.name))
+    ) {
+      errors = { ...errors, connections: ["connection name can't be blank"] };
+      hasErrors = true;
+    }
+
+    setErrors(errors);
+    return hasErrors;
+  };
 
   const handleCreateCharacter = async (character) => {
     setSubmitting(true);
@@ -35,9 +55,7 @@ const CharacterNew = () => {
           }
         });
     } else {
-      if (_.isEmpty(character.name)) {
-        setErrors({ name: ["can't be blank"] });
-      } else {
+      if (!hasUnauthorizedErrors(character)) {
         dispatch(createGuestCharacter({ character }));
         navigate(`/characters/${_.kebabCase(character.name)}`, {
           state: { character },

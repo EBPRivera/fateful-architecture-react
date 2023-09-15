@@ -4,4 +4,12 @@
   form > .container > .row {
     margin-bottom: 1rem;
   }
+
+  .connections-form-list {
+    > .row:not(:last-child) {
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--bs-border-color);
+    }
+  }
 }

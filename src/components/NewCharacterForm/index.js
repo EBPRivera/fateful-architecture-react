@@ -17,6 +17,7 @@ import { removeEmptyParagraphs } from "../../helpers/input";
 import CTextInput from "../Custom/CTextInput";
 import CTextArea from "../Custom/CTextArea";
 import AttributeStatsForm from "./AttributeStatsForm";
+import ConnectionsForm from "./ConnectionsForm";
 
 const INIT_BASIC_INFO = {
   name: "",
@@ -33,10 +34,13 @@ const INIT_STAT_ALLOCATION = {
   complementary: stats.complementary,
 };
 
+const FATE_LIMIT = 5;
+
 const NewCharacterForm = ({ onSubmit, submitting, errors }) => {
   const [basicInformation, setBasicInformation] = useState(INIT_BASIC_INFO);
   const [profiles, setProfiles] = useState(INIT_PROFILES);
   const [statAllocation, setStatAllocation] = useState(INIT_STAT_ALLOCATION);
+  const [connections, setConnections] = useState([]);
 
   const handleSubmitForm = (event) => {
     event.preventDefault();
@@ -63,6 +67,8 @@ const NewCharacterForm = ({ onSubmit, submitting, errors }) => {
       limit: 20,
       stamina: 20,
       endurance: 20,
+      fate: FATE_LIMIT - _.size(connections),
+      connections,
     };
 
     onSubmit(characterParams);
@@ -123,6 +129,21 @@ const NewCharacterForm = ({ onSubmit, submitting, errors }) => {
                     handleChangeInput("description", newValue)
                   }
                 />
+              </Row>
+              <hr />
+              <Row className="mb-0">
+                <Col as="h2">Connections</Col>
+              </Row>
+              <Row>
+                <Col>
+                  <ConnectionsForm
+                    connections={connections}
+                    onChange={(newConnections) => {
+                      setConnections(newConnections);
+                    }}
+                    errors={responseErrors(errors, "connections")}
+                  />
+                </Col>
               </Row>
               <hr />
               <Row>

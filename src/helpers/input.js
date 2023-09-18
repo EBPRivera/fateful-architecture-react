@@ -1,12 +1,11 @@
 import _ from "lodash";
 
-const removeEmptyParagraphs = (input) => {
-  const filteredParagraphs = _.filter(
-    _.split(input, "\n"),
-    (paragraph) => !_.isEmpty(paragraph)
-  );
-
-  return _.join(filteredParagraphs, "\n");
+const parseParagraphs = (input) => {
+  return _.filter(_.split(input, "\n"), (paragraph) => !_.isEmpty(paragraph));
 };
 
-export { removeEmptyParagraphs };
+const removeEmptyParagraphs = (input) => {
+  return _.join(parseParagraphs(input), "\n");
+};
+
+export { parseParagraphs, removeEmptyParagraphs };

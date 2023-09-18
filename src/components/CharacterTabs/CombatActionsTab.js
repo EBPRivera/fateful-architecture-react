@@ -15,7 +15,7 @@ const renderNotes = (notes) => {
   );
 };
 
-const CombatActions = () => {
+const CombatActionsTab = () => {
   return (
     <Card className="p-3">
       <ul>
@@ -42,4 +42,4 @@ const CombatActions = () => {
   );
 };
 
-export default CombatActions;
+export default CombatActionsTab;

@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Card } from "react-bootstrap";
 
-const CharacterDescription = ({ description }) => {
+const CharacterDescriptionTab = ({ description }) => {
   let paragraphs = [];
   if (_.isEmpty(description)) {
     paragraphs = ["No description provided"];
@@ -18,4 +18,4 @@ const CharacterDescription = ({ description }) => {
   );
 };
 
-export default CharacterDescription;
+export default CharacterDescriptionTab;

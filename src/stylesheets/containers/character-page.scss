@@ -1,0 +1,14 @@
+#character-page {
+  .character-tabs {
+    > .container > .row:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+
+    .connections-list {
+      .connection-name {
+        width: fit-content;
+        cursor: pointer;
+      }
+    }
+  }
+}

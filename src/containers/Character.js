@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useRef, createContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
@@ -12,9 +12,15 @@ import CharacterStats from "../components/CharacterStats";
 import CharacterSkills from "../components/CharacterSkills";
 import CPageHeader from "../components/Custom/CPageHeader";
 
+export const CharacterContext = createContext({
+  character: {},
+  setCharacter: () => {},
+  handleUpdateCharacter: () => {},
+});
+
 const Character = () => {
   const [character, setCharacter] = useState();
-  const characterRef = useRef();
+  const characterRef = useRef(character);
   const location = useLocation();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
@@ -26,8 +32,7 @@ const Character = () => {
     if (_.isNull(location.state) || _.isNull(location.state.character)) {
       navigate("/characters");
     } else {
-      setCharacter(location.state.character);
-      characterRef.current = location.state.character;
+      handleSetCharacter(location.state.character);
     }
 
     return () => {
@@ -35,6 +40,11 @@ const Character = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleSetCharacter = (character) => {
+    setCharacter(character);
+    characterRef.current = character;
+  };
 
   const handleUpdateCharacter = async (character) => {
     if (_.isUndefined(character)) return;
@@ -46,11 +56,6 @@ const Character = () => {
     } else {
       dispatch(updateGuestCharacter({ character }));
     }
-  };
-
-  const handleChangeConstitution = (constitution) => {
-    setCharacter((character) => ({ ...character, ...constitution }));
-    characterRef.current = { ...characterRef.current, ...constitution };
   };
 
   const renderHeader = () => {
@@ -87,14 +92,11 @@ const Character = () => {
       <>
         <Row className="character-heading">
           <Col>
-            <CharacterTabs character={characterRef.current} />
+            <CharacterTabs />
           </Col>
         </Row>
         <Row className="character-stats">
-          <CharacterStats
-            character={character}
-            onChange={handleChangeConstitution}
-          />
+          <CharacterStats />
         </Row>
         <Row className="character-skills">
           <CharacterSkills />
@@ -104,12 +106,18 @@ const Character = () => {
   };
 
   return (
-    <>
+    <CharacterContext.Provider
+      value={{
+        character,
+        setCharacter: handleSetCharacter,
+        handleUpdateCharacter,
+      }}
+    >
       <CPageHeader>{renderHeader()}</CPageHeader>
       <Container id="character-page" className="pt-3">
         {renderDetails()}
       </Container>
-    </>
+    </CharacterContext.Provider>
   );
 };
 

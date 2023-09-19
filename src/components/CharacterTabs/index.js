@@ -1,18 +1,20 @@
 import { Tab, Tabs } from "react-bootstrap";
 
-import CharacterDescription from "./CharacterDescription";
-import CharacterCombatActions from "./CharacterCombatActions";
+import CharacterDescriptionTab from "./CharacterDescriptionTab";
+import CombatActionsTab from "./CombatActionsTab";
+import FateConnectionsTab from "./FateConnectionsTab";
 
-const CharacterTabs = ({ character }) => {
-  const { description } = character;
-
+const CharacterTabs = () => {
   return (
     <Tabs className="character-tabs" defaultActiveKey="description">
       <Tab eventKey="description" title="Description">
-        <CharacterDescription description={description} />
+        <CharacterDescriptionTab />
       </Tab>
       <Tab eventKey="combatActions" title="Combat Actions">
-        <CharacterCombatActions />
+        <CombatActionsTab />
+      </Tab>
+      <Tab eventKey="fateAndConnections" title="Fate and Connections">
+        <FateConnectionsTab />
       </Tab>
     </Tabs>
   );

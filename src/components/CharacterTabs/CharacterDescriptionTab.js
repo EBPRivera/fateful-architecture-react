@@ -1,7 +1,13 @@
 import _ from "lodash";
+import { useContext } from "react";
 import { Card } from "react-bootstrap";
 
-const CharacterDescriptionTab = ({ description }) => {
+import { CharacterContext } from "../../containers/Character";
+
+const CharacterDescriptionTab = () => {
+  const { character } = useContext(CharacterContext);
+  const { description } = character;
+
   let paragraphs = [];
   if (_.isEmpty(description)) {
     paragraphs = ["No description provided"];

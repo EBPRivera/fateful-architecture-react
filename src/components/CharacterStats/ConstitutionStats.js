@@ -1,20 +1,33 @@
+import { useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
+import { CharacterContext } from "../../containers/Character";
 import ConstitutionStat from "./ConstitutionStat";
 import CharacterStat from "./CharacterStat";
 import CCard from "../Custom/CCard";
 
-const ConstitutionStats = ({ stats, onChange }) => {
+const ConstitutionStats = ({ stats }) => {
+  const { character, setCharacter } = useContext(CharacterContext);
+
   const handleChangeStamina = (value) => {
     if (value <= stats.endurance && value > 0) {
-      onChange({ ...stats, stamina: value });
+      setCharacter({
+        ...character,
+        ...stats,
+        stamina: value,
+      });
     }
   };
 
   const handleChangeEndurance = (value) => {
     if (value <= stats.limit && value > 0) {
       const stamina = stats.stamina > value ? value : stats.stamina;
-      onChange({ ...stats, stamina, endurance: value });
+      setCharacter({
+        ...character,
+        ...stats,
+        stamina,
+        endurance: value,
+      });
     }
   };
 

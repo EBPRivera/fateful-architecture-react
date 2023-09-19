@@ -27,6 +27,7 @@ const INIT_ENTRIES = {
   prowess: "d6",
   resilience: "d6",
   limit: 20,
+  fate: 5,
 };
 
 const CharacterForm = ({

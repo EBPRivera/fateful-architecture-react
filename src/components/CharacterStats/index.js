@@ -1,9 +1,13 @@
+import { useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
+import { CharacterContext } from "../../containers/Character";
 import ConstitutionStats from "./ConstitutionStats";
 import AttributeStats from "./AttributeStats";
 
-const CharacterStats = ({ character, onChange }) => {
+const CharacterStats = () => {
+  const { character } = useContext(CharacterContext);
+
   const constitution = {
     stamina: character.stamina,
     endurance: character.endurance,
@@ -25,7 +29,7 @@ const CharacterStats = ({ character, onChange }) => {
     <Container>
       <Row>
         <Col className="constitution-stats-col">
-          <ConstitutionStats stats={constitution} onChange={onChange} />
+          <ConstitutionStats stats={constitution} />
         </Col>
       </Row>
       <Row className="attribute-stats-col">

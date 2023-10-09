@@ -62,7 +62,7 @@ const ConnectionsForm = ({ connections, errors, onChange }) => {
             return (
               <Row key={index}>
                 <Container>
-                  <Row>
+                  <Row className="mb-2">
                     <InputGroup>
                       <CTextInput
                         value={connection.name}
@@ -80,6 +80,7 @@ const ConnectionsForm = ({ connections, errors, onChange }) => {
                   </Row>
                   <Row>
                     <CTextArea
+                      label="Description"
                       value={connection.description}
                       onChange={(val) =>
                         handleChangeConnection(val, index, "description")

@@ -33,7 +33,7 @@ const ConnectionForm = ({
   return (
     <Form className={classNames(className)} onSubmit={handleSubmit}>
       <Container className="p-0">
-        <Row>
+        <Row className="mb-2">
           <InputGroup>
             <CTextInput
               onChange={(value) => handleChange(value, "name")}
@@ -46,6 +46,7 @@ const ConnectionForm = ({
         </Row>
         <Row>
           <CTextArea
+            label="Description"
             onChange={(value) => handleChange(value, "description")}
             value={connection.description}
           />
